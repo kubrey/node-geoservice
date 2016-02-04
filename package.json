@@ -1,0 +1,20 @@
+{
+  "name": "geolocator.loc",
+  "version": "1.0.0",
+  "description": "Geo location service using multiple free independent services",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "geo",
+    "location",
+    "free"
+  ],
+  "author": "kubrey",
+  "license": "ISC",
+  "devDependencies": {
+    "geoip-lite": "^1.1.6",
+    "maxmind-db-reader": "^0.2.1"
+  }
+}
