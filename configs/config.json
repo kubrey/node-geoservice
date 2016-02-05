@@ -4,13 +4,30 @@
       "type": "local",
       "dbfile": "/var/www/GeoLiteCity.dat",
       "active": true,
-      "priority": 1
+      "priority": 30
     },
     "maxmind-mmdb": {
       "type": "local",
       "dbfile": "/var/www/GeoLite2-City.mmdb",
       "active": true,
-      "priority": 2
+      "priority": 1
+    },
+    "ipinfo": {
+      "type": "service",
+      "active": true,
+      "priority": 25,
+      "url": "http://ipinfo/{{ip}}",
+      "queryType": "get"
     }
+  },
+  "geoObject": {
+    "city": true,
+    "countryCode": true,
+    "countryName": true,
+    "latitude": true,
+    "longitude": true,
+    "isp": true,
+    "zip": false,
+    "regionName": false
   }
 }
