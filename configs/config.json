@@ -3,20 +3,20 @@
     "maxmind-dat": {
       "type": "local",
       "dbfile": "/var/www/GeoLiteCity.dat",
-      "active": true,
+      "active": false,
       "priority": 30
     },
     "maxmind-mmdb": {
       "type": "local",
       "dbfile": "/var/www/GeoLite2-City.mmdb",
-      "active": true,
+      "active": false,
       "priority": 1
     },
     "ipinfo": {
       "type": "service",
       "active": true,
       "priority": 25,
-      "url": "http://ipinfo/{{ip}}",
+      "url": "http://ipinfo.io/{{ip}}",
       "queryType": "get"
     }
   },

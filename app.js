@@ -29,6 +29,7 @@ var queue = async.priorityQueue(function (task, callback) {
 for (var service in sorted) {
     var fn = require(path.join(__dirname, "services/" + sorted[service][0]));
     var cb = function (err, result) {
+        console.log(err);
         if (!err) {
             console.log('finished and killed; ' + queue.running());
             queue.kill();
