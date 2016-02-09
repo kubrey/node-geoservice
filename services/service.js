@@ -51,6 +51,7 @@ BaseService.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
+            console.log(answer);
             callback(null, self.formalize(answer));
             //res.end();
         });

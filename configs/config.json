@@ -3,7 +3,7 @@
     "maxmind-dat": {
       "type": "local",
       "dbfile": "/var/www/GeoLiteCity.dat",
-      "active": true,
+      "active": false,
       "priority": 30
     },
     "maxmind-mmdb": {
@@ -36,7 +36,7 @@
     },
     "ip-api": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 10,
       "requestOptions": {
         "host": "ip-api.com",
@@ -47,18 +47,18 @@
     },
     "ipgeobase": {
       "type": "local",
-      "active": true,
+      "active": false,
       "priority": 15,
       "cidrdb": "/var/www/stuff/data/www/geolocation.loc/data/cidr_optim.txt",
       "citiesdb": "/var/www/stuff/data/www/geolocation.loc/data/cities.txt"
     },
     "geobytes": {
-      "type":"service",
-      "active":false,
-      "priority":30,
-      "requestOptions":{
-        "host": "geobytes.com",
-        "path": "/json/{{ip}}",
+      "type": "service",
+      "active": true,
+      "priority": 1,
+      "requestOptions": {
+        "host": "getcitydetails.geobytes.com",
+        "path": "/GetCityDetails?fqcn={{ip}}",
         "port": 80,
         "method": "GET"
       }

@@ -27,6 +27,7 @@ var queue = async.priorityQueue(function (task, callback) {
 }, 2);
 
 for (var service in sorted) {
+    console.log('getting ' + sorted[service][0]);
     var fn = require(path.join(__dirname, "services/" + sorted[service][0]));
     var cb = function (err, result) {
         console.log(err);
