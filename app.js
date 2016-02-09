@@ -5,13 +5,25 @@ var conf = require('./configs');
 var helper = require('./helpers');
 var async = require('async');
 var util = require('util');
+var net = require('net');
 
 var services = conf.get('services');
-
 var accumulatedResult = [], isDone = false;
+var setupFields = conf.get('geoObject');
+console.log(setupFields);
 
+/**
+ *
+ * @param data
+ * @return {boolean}
+ */
 function hasFoundRequested(data) {
-    return  data.isp ? true : false;
+    for (var it in setupFields) {
+        if (setupFields[it] === true && data[it] === null) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -35,11 +47,34 @@ function handleAccumulated() {
     return result;
 }
 
-function lookup(ip, callback) {
+function setSearchedFields(fields) {
+    for (var iter in fields) {
+        if (setupFields[iter]) {
+            setupFields[iter] = fields[iter];
+        }
+    }
+}
+
+/**
+ *
+ * @param ip
+ * @param callback
+ * @param options
+ */
+function lookup(ip, callback, options) {
+    if (net.isIPv4(ip) === false) {
+        callback(ip + " is not IPv4", null);
+        return;
+    }
     for (var iter in services) {
         if (services[iter].active !== true) {
             delete services[iter];
         }
+    }
+
+    if (options) {
+        options.fields = options.fields || {};
+        setSearchedFields(options.fields);
     }
 
     var sorted = helper.sort(services, true, 'priority', 'asc');
@@ -51,7 +86,6 @@ function lookup(ip, callback) {
         //console.log(util.inspect(task.callback.toString()));
         callback(task.ip, task.callback);
     }, 1);
-
 
     for (var service in sorted) {
         var fn = require(path.join(__dirname, "services/" + sorted[service][0]));
@@ -70,9 +104,7 @@ function lookup(ip, callback) {
 
                     callback(null, res);
                 }
-
             }
-
             //console.log(result);
         };
         queue.push({
