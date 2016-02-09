@@ -7,17 +7,16 @@ var async = require('async');
 var util = require('util');
 var net = require('net');
 
-var services = conf.get('services');
+var services = conf.get('services'), sorted;
 var accumulatedResult = [], isDone = false;
 var setupFields = conf.get('geoObject');
-console.log(setupFields);
 
 /**
  *
- * @param data
  * @return {boolean}
  */
-function hasFoundRequested(data) {
+function hasFoundRequested() {
+    var data = handleAccumulated();
     for (var it in setupFields) {
         if (setupFields[it] === true && data[it] === null) {
             return false;
@@ -55,6 +54,18 @@ function setSearchedFields(fields) {
     }
 }
 
+function setSearchServices(servs) {
+    //console.log(servs);
+    for (var iter in servs) {
+        //console.log(services[iter],'---');
+        if (servs[iter] === false) {
+            services[iter].active = false;
+        } else {
+            services[iter].priority = parseInt(servs[iter]);
+        }
+    }
+}
+
 /**
  *
  * @param ip
@@ -66,20 +77,23 @@ function lookup(ip, callback, options) {
         callback(ip + " is not IPv4", null);
         return;
     }
+
+    if (options) {
+        options.fields = options.fields || {};
+        setSearchedFields(options.fields);
+        options.services = options.services || {};
+        setSearchServices(options.services);
+    }
+
     for (var iter in services) {
         if (services[iter].active !== true) {
             delete services[iter];
         }
     }
 
-    if (options) {
-        options.fields = options.fields || {};
-        setSearchedFields(options.fields);
-    }
+    var cbStack = 0;
 
-    var sorted = helper.sort(services, true, 'priority', 'asc');
-
-    ip = ip || '18.101.101.101';
+    sorted = helper.sort(services, true, 'priority', 'asc');
 
     var queue = async.priorityQueue(function (task, callback) {
         //console.log('start ' + task.title + ";" + queue.running());
@@ -88,12 +102,13 @@ function lookup(ip, callback, options) {
     }, 1);
 
     for (var service in sorted) {
+        ++cbStack;
         var fn = require(path.join(__dirname, "services/" + sorted[service][0]));
         var cb = function (err, result) {
-            //console.log(err);
+            --cbStack;
             if (!err) {
                 accumulatedResult.push(result);
-                if (hasFoundRequested(result) && !isDone) {
+                if (hasFoundRequested() && !isDone) {
                     isDone = true;
                     //console.log('finished and killed; ' + queue.running());
                     //
@@ -101,11 +116,14 @@ function lookup(ip, callback, options) {
                     var res = handleAccumulated();
                     queue.kill();
                     queue.tasks = [];
-
                     callback(null, res);
+                    return;
                 }
             }
-            //console.log(result);
+            if (cbStack === 0 && !isDone) {
+                //all services have already run but not all required fields found ->
+                callback("Geo data was not found", null);
+            }
         };
         queue.push({
             title: sorted[service][0],
