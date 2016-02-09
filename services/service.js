@@ -38,13 +38,9 @@ BaseService.prototype.formalize = function (result) {
  * @param {Function} callback
  */
 BaseService.prototype.lookup = function (ip, callback) {
-    var url = this.config.url.replace('{{ip}}', ip);
-    var options = {
-        method: this.config.queryType.toUpperCase(),
-        hostname: "ipinfo.io",
-        path: "/8.8.8.8"
-    };
-    console.log(options);
+    this.config.requestOptions.path = this.config.requestOptions.path.replace('{{ip}}', ip);
+    var options = this.config.requestOptions;
+    var self = this;
     var req = http.request(options, function (res) {
         if (res.statusCode !== 200) {
             callback("status code " + res.statusCode, null);
@@ -55,9 +51,8 @@ BaseService.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
-            console.log(answer);
-            callback(null, answer);
-            res.end();
+            callback(null, self.formalize(answer));
+            //res.end();
         });
     }).on('error', function (err) {
         console.log(err);
@@ -66,9 +61,10 @@ BaseService.prototype.lookup = function (ip, callback) {
         req.abort();
         callback("Timeout", null);
     });
+
+    req.end();
 };
 
-//console.log(BaseService.prototype);
 
 module.exports = BaseService;
 

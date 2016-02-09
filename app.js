@@ -35,6 +35,7 @@ for (var service in sorted) {
             queue.kill();
             console.log('is idle; ' + queue.idle());
         }
+
         console.log(result);
     };
     queue.push({

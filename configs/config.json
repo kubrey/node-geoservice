@@ -3,7 +3,7 @@
     "maxmind-dat": {
       "type": "local",
       "dbfile": "/var/www/GeoLiteCity.dat",
-      "active": false,
+      "active": true,
       "priority": 30
     },
     "maxmind-mmdb": {
@@ -14,10 +14,54 @@
     },
     "ipinfo": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 25,
-      "url": "http://ipinfo.io/{{ip}}",
-      "queryType": "get"
+      "requestOptions": {
+        "host": "ipinfo.io",
+        "method": "GET",
+        "port": 80,
+        "path": "/{{ip}}"
+      }
+    },
+    "freegeoip": {
+      "type": "service",
+      "active": false,
+      "priority": 20,
+      "requestOptions": {
+        "host": "freegeoip.net",
+        "port": 80,
+        "path": "/json/{{ip}}",
+        "method": "GET"
+      }
+    },
+    "ip-api": {
+      "type": "service",
+      "active": true,
+      "priority": 10,
+      "requestOptions": {
+        "host": "ip-api.com",
+        "path": "/json/{{ip}}",
+        "port": 80,
+        "method": "GET"
+      }
+    },
+    "ipgeobase": {
+      "type": "local",
+      "active": true,
+      "priority": 15,
+      "cidrdb": "/var/www/stuff/data/www/geolocation.loc/data/cidr_optim.txt",
+      "citiesdb": "/var/www/stuff/data/www/geolocation.loc/data/cities.txt"
+    },
+    "geobytes": {
+      "type":"service",
+      "active":false,
+      "priority":30,
+      "requestOptions":{
+        "host": "geobytes.com",
+        "path": "/json/{{ip}}",
+        "port": 80,
+        "method": "GET"
+      }
     }
   },
   "geoObject": {
@@ -28,6 +72,7 @@
     "longitude": true,
     "isp": true,
     "zip": false,
-    "regionName": false
+    "regionName": false,
+    "regionCode": false
   }
 }
