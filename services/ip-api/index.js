@@ -1,7 +1,6 @@
 "use strict";
 
 var path = require('path');
-var conf = require(path.join(__dirname, "../../configs"));
 var util = require('util');
 var BaseService = require(path.join(__dirname, "../service"));
 const http = require('http')
