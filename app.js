@@ -6,16 +6,30 @@ var helper = require('./helpers');
 var async = require('async');
 var util = require('util');
 var net = require('net');
+var setFields = conf.get('geoObject');
+var setServices = conf.get('services');
 
-var services = conf.get('services');
 
 function GeoLocator() {
 
 }
-GeoLocator.prototype.search = function (ip, callback, options) {
+
+
+GeoLocator.setOptions = function(options){
+    this.options = options;
+};
+
+GeoLocator.lookup = function (ip, callback, options) {
+    //console.log(services);
+
+    options = this.options;
     var accumulatedResult = [], isDone = false;
-    var setupFields = conf.get('geoObject');
     var sorted;
+    var setupFields = util._extend({}, setFields);
+    var services = util._extend({}, setServices);
+
+    console.log(services['ip-api']);
+    console.log(setServices['ip-api']);
 
     /**
      *
@@ -80,10 +94,19 @@ GeoLocator.prototype.search = function (ip, callback, options) {
 
     if (options) {
         options.fields = options.fields || {};
+        if (options.fields.length) {
+            //preventing service fields to be updated outside of this particular ip-data search
+            //var setupFields = util._extend({}, setupFields);
+        }
         setSearchedFields(options.fields);
+        if (options.services.length) {
+            //preventing services status to be updated outside of this particular ip-data search
+            //var services = util._extend({}, services);
+        }
         options.services = options.services || {};
         setSearchServices(options.services);
     }
+
 
     for (var iter in services) {
         if (services[iter].active !== true) {
@@ -94,6 +117,7 @@ GeoLocator.prototype.search = function (ip, callback, options) {
     var cbStack = 0;
 
     sorted = helper.sort(services, true, 'priority', 'asc');
+
 
     var queue = async.priorityQueue(function (task, callback) {
         //console.log('start ' + task.title + ";" + queue.running());
@@ -142,6 +166,5 @@ GeoLocator.prototype.search = function (ip, callback, options) {
 };
 
 
-module.exports = {
-    lookup: GeoLocator.prototype.search
-};
+
+module.exports = GeoLocator;
