@@ -7,72 +7,72 @@ var async = require('async');
 var util = require('util');
 var net = require('net');
 
-var services = conf.get('services'), sorted;
-var accumulatedResult = [], isDone = false;
-var setupFields = conf.get('geoObject');
+var services = conf.get('services');
 
-/**
- *
- * @return {boolean}
- */
-function hasFoundRequested() {
-    var data = handleAccumulated();
-    for (var it in setupFields) {
-        if (setupFields[it] === true && data[it] === null) {
-            return false;
-        }
-    }
-    return true;
+function GeoLocator() {
+
 }
+GeoLocator.prototype.search = function (ip, callback, options) {
+    var accumulatedResult = [], isDone = false;
+    var setupFields = conf.get('geoObject');
+    var sorted;
 
-/**
- *
- * @return {{}}
- */
-function handleAccumulated() {
-    var result = {};
-    var keys = Object.keys(accumulatedResult[0]);
-    for (var i in keys) {
-        result[keys[i]] = null;
+    /**
+     *
+     * @return {boolean}
+     */
+    function hasFoundRequested() {
+        var data = handleAccumulated();
+        for (var it in setupFields) {
+            if (setupFields[it] === true && data[it] === null) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    for (var i in keys) {
-        for (var it in accumulatedResult) {
-            if (accumulatedResult[it][keys[i]] !== null) {
-                result[keys[i]] = accumulatedResult[it][keys[i]];
+    /**
+     *
+     * @return {{}}
+     */
+    function handleAccumulated() {
+        var result = {};
+        var keys = Object.keys(accumulatedResult[0]);
+        for (var i in keys) {
+            result[keys[i]] = null;
+        }
+
+        for (var i in keys) {
+            for (var it in accumulatedResult) {
+                if (accumulatedResult[it][keys[i]] !== null) {
+                    result[keys[i]] = accumulatedResult[it][keys[i]];
+                }
+            }
+        }
+        return result;
+    }
+
+    function setSearchedFields(fields) {
+        for (var iter in fields) {
+            if (setupFields[iter]) {
+                setupFields[iter] = fields[iter];
             }
         }
     }
-    return result;
-}
 
-function setSearchedFields(fields) {
-    for (var iter in fields) {
-        if (setupFields[iter]) {
-            setupFields[iter] = fields[iter];
+    function setSearchServices(servs) {
+        //console.log(servs);
+        for (var iter in servs) {
+            //console.log(services[iter],'---');
+            if (servs[iter] === false) {
+                services[iter].active = false;
+            } else {
+                services[iter].priority = parseInt(servs[iter]);
+            }
         }
     }
-}
 
-function setSearchServices(servs) {
-    //console.log(servs);
-    for (var iter in servs) {
-        //console.log(services[iter],'---');
-        if (servs[iter] === false) {
-            services[iter].active = false;
-        } else {
-            services[iter].priority = parseInt(servs[iter]);
-        }
-    }
-}
 
-/**
- *
- * @param ip
- * @param callback
- * @param options
- */
-function lookup(ip, callback, options) {
     if (net.isIPv4(ip) === false) {
         callback(ip + " is not IPv4", null);
         return;
@@ -138,9 +138,10 @@ function lookup(ip, callback, options) {
             queue.tasks = [];
         }
     };
-}
+
+};
 
 
 module.exports = {
-    lookup: lookup
+    lookup: GeoLocator.prototype.search
 };

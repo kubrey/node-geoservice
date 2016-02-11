@@ -3,7 +3,7 @@
     "maxmind-dat": {
       "type": "local",
       "dbfile": "/var/www/GeoLiteCity.dat",
-      "active": true,
+      "active": false,
       "priority": 30
     },
     "maxmind-mmdb": {
@@ -14,7 +14,7 @@
     },
     "ipinfo": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 25,
       "requestOptions": {
         "host": "ipinfo.io",

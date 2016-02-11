@@ -3,6 +3,7 @@
 var path = require("path");
 var conf = require(path.join(__dirname, "../configs"));
 const http = require('http');
+var util = require('util');
 
 function BaseService() {
     this.method;
@@ -38,8 +39,8 @@ BaseService.prototype.formalize = function (result) {
  * @param {Function} callback
  */
 BaseService.prototype.lookup = function (ip, callback) {
-    this.config.requestOptions.path = this.config.requestOptions.path.replace('{{ip}}', ip);
-    var options = this.config.requestOptions;
+    var options = util._extend({},this.config.requestOptions);
+    options.path = options.path.replace('{{ip}}', ip);
     var self = this;
     var req = http.request(options, function (res) {
         if (res.statusCode !== 200) {

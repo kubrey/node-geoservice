@@ -45,9 +45,9 @@ IpApi.prototype.formalize = function (geo) {
 };
 
 IpApi.prototype.lookup = function (ip, callback) {
-    this.config.requestOptions.path = this.config.requestOptions.path.replace('{{ip}}', ip);
-    var options = this.config.requestOptions;
-    //options.path += "?fields=" + Math.floor(Math.random() * (700000 - 100000 + 1)) + 100000;
+    var options = util._extend({},this.config.requestOptions);
+
+    options.path = options.path.replace('{{ip}}', ip);
     var self = this;
     var req = http.request(options, function (res) {
         if (res.statusCode !== 200) {
