@@ -8,28 +8,44 @@ var util = require('util');
 var net = require('net');
 var setFields = conf.get('geoObject');
 var setServices = conf.get('services');
-
+var setCommonOptions = conf.get('commonOptions');
 
 function GeoLocator() {
 
 }
 
-
-GeoLocator.setOptions = function(options){
+/**
+ *
+ * @param Object options
+ * @return {GeoLocator}
+ */
+GeoLocator.setOptions = function (options) {
     this.options = options;
+    this.commonOptions = JSON.parse(JSON.stringify(setCommonOptions));
+    this.services = JSON.parse(JSON.stringify(setServices));
+
+    if (options !== undefined) {
+        if (options.services !== undefined && Object.keys(options.services).length) {
+            for (var iter in options.services) {
+                this.services[iter]['active'] = options.services[iter];
+            }
+        }
+        if (options.common !== undefined && Object.keys(options.common).length) {
+            for (var it in options.common) {
+                this.commonOptions[it] = options.common[it];
+            }
+        }
+    }
+
+    return this;
 };
 
-GeoLocator.lookup = function (ip, callback, options) {
-    //console.log(services);
-
-    options = this.options;
+GeoLocator.lookup = function (ip, callback) {
+    var self = this;
+    var options = this.options;
     var accumulatedResult = [], isDone = false;
     var sorted;
-    var setupFields = util._extend({}, setFields);
-    var services = util._extend({}, setServices);
-
-    console.log(services['ip-api']);
-    console.log(setServices['ip-api']);
+    var setupFields = JSON.parse(JSON.stringify(setFields));
 
     /**
      *
@@ -41,6 +57,30 @@ GeoLocator.lookup = function (ip, callback, options) {
             if (setupFields[it] === true && data[it] === null) {
                 return false;
             }
+        }
+        //If  commonOptions.checkLevel>1
+        //commonOptions.checkField value should be the same in {{commonOptions.checkLevel}} services
+        //e.g commonOptions.checkLevel:2,commonOptions.checkField:countryCode ->
+        //then ipinfo countryCode=US && ip-api countryCode=US ->
+        //then returning true;
+        if (self.commonOptions.checkLevel > 1) {
+            var checkCounter = [];
+            var fieldValues = {};
+            for (var serv in accumulatedResult) {
+                for (var dataField in accumulatedResult[serv]) {
+                    if(dataField === self.commonOptions.checkField){
+                        checkCounter.push(accumulatedResult[serv][dataField]);
+                    }
+
+                    if (fieldValues[accumulatedResult[serv][dataField]] === self.commonOptions.checkLevel) {
+                        console.log("------", checkCounter, "---------");
+                        console.log("DONE=============",fieldValues[accumulatedResult[serv][dataField]]);
+                        return true;
+                    }
+                }
+            }
+            console.log("------", checkCounter, "---------");
+            return Object.keys(accumulatedResult).length === Object.keys(self.services).length ? true : false;
         }
         return true;
     }
@@ -74,19 +114,6 @@ GeoLocator.lookup = function (ip, callback, options) {
         }
     }
 
-    function setSearchServices(servs) {
-        //console.log(servs);
-        for (var iter in servs) {
-            //console.log(services[iter],'---');
-            if (servs[iter] === false) {
-                services[iter].active = false;
-            } else {
-                services[iter].priority = parseInt(servs[iter]);
-            }
-        }
-    }
-
-
     if (net.isIPv4(ip) === false) {
         callback(ip + " is not IPv4", null);
         return;
@@ -103,27 +130,23 @@ GeoLocator.lookup = function (ip, callback, options) {
             //preventing services status to be updated outside of this particular ip-data search
             //var services = util._extend({}, services);
         }
-        options.services = options.services || {};
-        setSearchServices(options.services);
+        //options.services = options.services || {};
+        //setSearchServices(options.services);
     }
 
 
-    for (var iter in services) {
-        if (services[iter].active !== true) {
-            delete services[iter];
-        }
-    }
+    this.cleanServices();
 
     var cbStack = 0;
 
-    sorted = helper.sort(services, true, 'priority', 'asc');
-
+    sorted = helper.sort(this.services, true, 'priority', 'asc');
 
     var queue = async.priorityQueue(function (task, callback) {
-        //console.log('start ' + task.title + ";" + queue.running());
+        console.log('start ' + task.title + ";" + queue.running());
         //console.log(util.inspect(task.callback.toString()));
         callback(task.ip, task.callback);
     }, 1);
+    //console.log(sorted);
 
     for (var service in sorted) {
         ++cbStack;
@@ -131,6 +154,7 @@ GeoLocator.lookup = function (ip, callback, options) {
         var cb = function (err, result) {
             --cbStack;
             if (!err) {
+                result.method = sorted[service][0];
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
                     isDone = true;
@@ -166,5 +190,14 @@ GeoLocator.lookup = function (ip, callback, options) {
 };
 
 
+GeoLocator.cleanServices = function () {
+    for (var iter in this.services) {
+        if (this.services[iter].active !== true) {
+            delete this.services[iter];
+        }
+    }
+
+    return this;
+};
 
 module.exports = GeoLocator;

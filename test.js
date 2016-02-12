@@ -12,6 +12,8 @@ geo.lookup('8.8.8.8', function (err, result) {
 });
 
 setTimeout(function () {
+    //options.services['ip-api'] = true;
+    geo.setOptions({services:[]});
     geo.lookup('95.153.83.246', function (err, result) {
         console.log(err, result);
     });
