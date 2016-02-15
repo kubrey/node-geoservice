@@ -11,7 +11,9 @@ var setServices = conf.get('services');
 var setCommonOptions = conf.get('commonOptions');
 
 function GeoLocator() {
-
+    this.options;
+    this.optionsError = null;
+    this.services;
 }
 
 /**
@@ -21,6 +23,7 @@ function GeoLocator() {
  */
 GeoLocator.setOptions = function (options) {
     this.options = options;
+    this.optionsError = null;
     this.commonOptions = JSON.parse(JSON.stringify(setCommonOptions));
     this.services = JSON.parse(JSON.stringify(setServices));
 
@@ -34,6 +37,17 @@ GeoLocator.setOptions = function (options) {
             for (var it in options.common) {
                 this.commonOptions[it] = options.common[it];
             }
+            if (options.common.checkField !== undefined) {
+                if (Object.keys(setFields).indexOf(options.common.checkField) === -1) {
+                    this.optionsError = 'Rechecking field in common option is invalid(' + options.common.checkField + ').\n Must be one of these: ' + Object.keys(setFields).join(',');
+                    //throw new Error('Rechecking field in common option is invalid(' + options.common.checkField + '). Must be one of these: ' + Object.keys(setFields).join(','));
+                }
+            }
+            if (options.common.checkLevel !== undefined) {
+                if (parseInt(options.common.checkLevel) < 1 || isNaN(options.common.checkLevel)) {
+                    this.commonOptions.checkLevel = 1;
+                }
+            }
         }
     }
 
@@ -41,6 +55,9 @@ GeoLocator.setOptions = function (options) {
 };
 
 GeoLocator.lookup = function (ip, callback) {
+    if (this.optionsError !== null) {
+        callback(this.optionsError, null);
+    }
     var self = this;
     var options = this.options;
     var accumulatedResult = [], isDone = false;

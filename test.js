@@ -4,8 +4,9 @@ var options = {};
 options.services = [];
 options.fields = [];
 options.common = [];
-options.common.checkLevel = 2;
-options.services['ip-api'] = false;
+options.common.checkLevel = 'fdds';
+options.common.checkField = 'wrwe';
+//options.services['ip-api'] = false;
 var geo = require("./app");
 
 geo.setOptions(options);
