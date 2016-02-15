@@ -3,13 +3,13 @@
     "maxmind-dat": {
       "type": "local",
       "dbfile": "/var/www/GeoLiteCity.dat",
-      "active": false,
+      "active": true,
       "priority": 30
     },
     "maxmind-mmdb": {
       "type": "local",
       "dbfile": "/var/www/GeoLite2-City.mmdb",
-      "active": false,
+      "active": true,
       "priority": 1
     },
     "ipinfo": {
@@ -59,7 +59,7 @@
     "geobytes": {
       "type": "service",
       "active": true,
-      "priority": 1,
+      "priority": 50,
       "requestOptions": {
         "host": "getcitydetails.geobytes.com",
         "path": "/GetCityDetails?fqcn={{ip}}",
@@ -69,18 +69,18 @@
     }
   },
   "geoObject": {
-    "city": true,
+    "city": false,
     "countryCode": true,
-    "countryName": true,
-    "latitude": true,
-    "longitude": true,
-    "isp": true,
+    "countryName": false,
+    "latitude": false,
+    "longitude": false,
+    "isp": false,
     "zip": false,
     "regionName": false,
     "regionCode": false
   },
   "commonOptions": {
-    "checkLevel": 2,
-    "checkField": "city"
+    "checkLevel": 1,
+    "checkField": "countryCode"
   }
 }

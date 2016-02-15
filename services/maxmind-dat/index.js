@@ -10,9 +10,10 @@ global.geodatadir = path.dirname(geodatafile);
 /**
  *
  * @param geoResult
+ * @param object extra
  * @return {{city: (*|string|null), countryCode: (*|string|string|string|null), countryName: null, regionName: null, regionCode: (string|*|null), zip: null, latitude: *, longitude: *, isp: null, method: *}}
  */
-function formalize(geoResult) {
+function formalize(geoResult, extra) {
     var lat = null, lon = null;
     geoResult = geoResult || {};
     if (geoResult.ll) {
@@ -33,13 +34,21 @@ function formalize(geoResult) {
         method: path.basename(path.dirname(__filename))
     };
 
+    if (typeof extra === 'object') {
+        for (var el in extra) {
+            result[el] = extra[el];
+        }
+    }
+
     return result;
 }
 
 
 module.exports = {
     lookup: function (ip, callback) {
+        var start = new Date();
         var result = geoip.lookup(ip);
-        callback(null, formalize(result));
+        var extra = {requestTime: new Date() - start};
+        callback(null, formalize(result, extra));
     }
 };

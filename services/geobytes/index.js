@@ -15,7 +15,7 @@ util.inherits(Geobytes, BaseService);
 Geobytes.prototype.method = path.basename(path.dirname(__filename));
 Geobytes.prototype.loadConfigs();
 
-Geobytes.prototype.formalize = function (geo) {
+Geobytes.prototype.formalize = function (geo, extra) {
     try {
         var geoResult = JSON.parse(geo);
     } catch (e) {
@@ -34,6 +34,12 @@ Geobytes.prototype.formalize = function (geo) {
         isp: null,
         method: this.method
     };
+
+    if (typeof extra === 'object') {
+        for (var el in extra) {
+            result[el] = extra[el];
+        }
+    }
 
     return result;
 };

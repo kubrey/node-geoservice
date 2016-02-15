@@ -19,9 +19,10 @@ IpApi.prototype.loadConfigs();
 /**
  *
  * @param geoResult
+ * @param object extra
  * @return {{city: (*|string|null), countryCode: (*|string|string|string|null), countryName: null, regionName: (string|*|null), zip: (*|null), latitude: *, longitude: *, isp: (*|null), method: *}}
  */
-IpApi.prototype.formalize = function (geo) {
+IpApi.prototype.formalize = function (geo, extra) {
     try {
         var geoResult = JSON.parse(geo);
     } catch (e) {
@@ -41,15 +42,24 @@ IpApi.prototype.formalize = function (geo) {
         method: this.method
     };
 
+    if (typeof extra === 'object') {
+        for (var el in extra) {
+            result[el] = extra[el];
+        }
+    }
+
     return result;
 };
 
 IpApi.prototype.lookup = function (ip, callback) {
-    var options = util._extend({},this.config.requestOptions);
+    var options = util._extend({}, this.config.requestOptions);
 
     options.path = options.path.replace('{{ip}}', ip);
     var self = this;
+    var start = new Date();
     var req = http.request(options, function (res) {
+        self.requestTime = new Date() - start;
+        var extra = {requestTime: self.requestTime}
         if (res.statusCode !== 200) {
             callback("status code " + res.statusCode, null);
             return;
@@ -68,7 +78,7 @@ IpApi.prototype.lookup = function (ip, callback) {
                 callback(util.inspect(e), null);
                 return;
             }
-            callback(null, self.formalize(answer));
+            callback(null, self.formalize(answer, extra));
             //res.end();
         });
     }).on('error', function (err) {

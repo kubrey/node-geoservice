@@ -18,9 +18,10 @@ Ipinfo.prototype.loadConfigs();
 /**
  *
  * @param geo
+ * @param object extra
  * @return {{city: (*|string|null), countryCode: (*|string|string|string|null), countryName: null, regionName: (string|*|null), zip: (*|null), latitude: *, longitude: *, isp: (*|null), method: *}}
  */
-Ipinfo.prototype.formalize = function (geo) {
+Ipinfo.prototype.formalize = function (geo,extra) {
     var lat = null, lon = null;
     try {
         var geoResult = JSON.parse(geo);
@@ -44,6 +45,12 @@ Ipinfo.prototype.formalize = function (geo) {
         isp: geoResult.org || null,
         method: this.method
     };
+
+    if (typeof extra === 'object') {
+        for (var el in extra) {
+            result[el] = extra[el];
+        }
+    }
 
     return result;
 };

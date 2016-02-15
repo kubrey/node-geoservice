@@ -2,6 +2,9 @@
 
 var options = {};
 options.services = [];
+options.fields = [];
+options.common = [];
+options.common.checkLevel = 2;
 options.services['ip-api'] = false;
 var geo = require("./app");
 
@@ -13,14 +16,14 @@ geo.lookup('8.8.8.8', function (err, result) {
 
 setTimeout(function () {
     //options.services['ip-api'] = true;
-    geo.setOptions({services:[]});
+    geo.setOptions({services: []});
     geo.lookup('95.153.83.246', function (err, result) {
         console.log(err, result);
     });
 }, 2000);
 
 
-var a = {};
-if (a.length) {
-    console.log('yeah');
-}
+//var a = {};
+//if (a.length) {
+//    console.log('yeah');
+//}

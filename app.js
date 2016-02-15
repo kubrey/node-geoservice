@@ -59,7 +59,7 @@ GeoLocator.lookup = function (ip, callback) {
             }
         }
         //If  commonOptions.checkLevel>1
-        //commonOptions.checkField value should be the same in {{commonOptions.checkLevel}} services
+        //commonOptions.checkField value should be the same in {{commonOptions.checkLevel}} number of services
         //e.g commonOptions.checkLevel:2,commonOptions.checkField:countryCode ->
         //then ipinfo countryCode=US && ip-api countryCode=US ->
         //then returning true;
@@ -68,18 +68,20 @@ GeoLocator.lookup = function (ip, callback) {
             var fieldValues = {};
             for (var serv in accumulatedResult) {
                 for (var dataField in accumulatedResult[serv]) {
-                    if(dataField === self.commonOptions.checkField){
+                    if (dataField === self.commonOptions.checkField) {
                         checkCounter.push(accumulatedResult[serv][dataField]);
+                        if (fieldValues[accumulatedResult[serv][dataField]] === undefined) {
+                            fieldValues[accumulatedResult[serv][dataField]] = 1;
+                        } else {
+                            fieldValues[accumulatedResult[serv][dataField]]++;
+                        }
                     }
 
                     if (fieldValues[accumulatedResult[serv][dataField]] === self.commonOptions.checkLevel) {
-                        console.log("------", checkCounter, "---------");
-                        console.log("DONE=============",fieldValues[accumulatedResult[serv][dataField]]);
                         return true;
                     }
                 }
             }
-            console.log("------", checkCounter, "---------");
             return Object.keys(accumulatedResult).length === Object.keys(self.services).length ? true : false;
         }
         return true;
@@ -96,13 +98,25 @@ GeoLocator.lookup = function (ip, callback) {
             result[keys[i]] = null;
         }
 
+        var methods = [];
+
+        for (var iterFirst in accumulatedResult) {
+            methods.push(accumulatedResult[iterFirst].method)
+        }
+
+
         for (var i in keys) {
             for (var it in accumulatedResult) {
                 if (accumulatedResult[it][keys[i]] !== null) {
                     result[keys[i]] = accumulatedResult[it][keys[i]];
                 }
+                if (keys[i] === 'requestTime' && accumulatedResult[it][keys[i]]) {
+                    result[keys[i]] += accumulatedResult[it][keys[i]];
+                }
             }
         }
+
+        result.usedMethods = methods;
         return result;
     }
 
@@ -142,11 +156,8 @@ GeoLocator.lookup = function (ip, callback) {
     sorted = helper.sort(this.services, true, 'priority', 'asc');
 
     var queue = async.priorityQueue(function (task, callback) {
-        console.log('start ' + task.title + ";" + queue.running());
-        //console.log(util.inspect(task.callback.toString()));
         callback(task.ip, task.callback);
     }, 1);
-    //console.log(sorted);
 
     for (var service in sorted) {
         ++cbStack;
@@ -154,7 +165,6 @@ GeoLocator.lookup = function (ip, callback) {
         var cb = function (err, result) {
             --cbStack;
             if (!err) {
-                result.method = sorted[service][0];
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
                     isDone = true;

@@ -18,9 +18,10 @@ FreegeoIp.prototype.loadConfigs();
 /**
  *
  * @param geoResult
+ * @param object extra additional info to inject into result object
  * @return {{city: (*|string|null), countryCode: (*|string|string|string|null), countryName: null, regionName: (string|*|null), zip: (*|null), latitude: *, longitude: *, isp: (*|null), method: *}}
  */
-FreegeoIp.prototype.formalize = function (geo) {
+FreegeoIp.prototype.formalize = function (geo, extra) {
     try {
         var geoResult = JSON.parse(geo);
     } catch (e) {
@@ -39,7 +40,11 @@ FreegeoIp.prototype.formalize = function (geo) {
         isp: null,
         method: this.method
     };
-
+    if (typeof extra === 'object') {
+        for (var el in extra) {
+            result[el] = extra[el];
+        }
+    }
     return result;
 };
 

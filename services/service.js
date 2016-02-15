@@ -8,6 +8,7 @@ var util = require('util');
 function BaseService() {
     this.method;
     this.config;
+    this.requestTime;
     BaseService.call(this);
 };
 //
@@ -27,9 +28,10 @@ BaseService.prototype.loadConfigs = function () {
 /**
  *
  * @param {object} result
+ * @param {object} extra
  * @return {object}
  */
-BaseService.prototype.formalize = function (result) {
+BaseService.prototype.formalize = function (result, extra) {
     return result;
 };
 
@@ -39,10 +41,13 @@ BaseService.prototype.formalize = function (result) {
  * @param {Function} callback
  */
 BaseService.prototype.lookup = function (ip, callback) {
-    var options = util._extend({},this.config.requestOptions);
+    var options = util._extend({}, this.config.requestOptions);
     options.path = options.path.replace('{{ip}}', ip);
     var self = this;
+    var start = new Date();
     var req = http.request(options, function (res) {
+        self.requestTime = new Date() - start;
+        var extra = {requestTime: self.requestTime}
         if (res.statusCode !== 200) {
             callback("status code " + res.statusCode, null);
             return;
@@ -52,11 +57,10 @@ BaseService.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
-            callback(null, self.formalize(answer));
+            callback(null, self.formalize(answer, extra));
             //res.end();
         });
     }).on('error', function (err) {
-        console.log(err);
         callback(err, null);
     }).setTimeout(5000, function () {
         req.abort();
