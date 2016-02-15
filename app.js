@@ -10,10 +10,15 @@ var setFields = conf.get('geoObject');
 var setServices = conf.get('services');
 var setCommonOptions = conf.get('commonOptions');
 
+/**
+ *
+ * @constructor
+ */
 function GeoLocator() {
     this.options;
     this.optionsError = null;
     this.services;
+    this.commonOptions;
 }
 
 /**
@@ -54,6 +59,11 @@ GeoLocator.setOptions = function (options) {
     return this;
 };
 
+/**
+ *
+ * @param ip
+ * @param callback
+ */
 GeoLocator.lookup = function (ip, callback) {
     if (this.optionsError !== null) {
         callback(this.optionsError, null);
@@ -137,6 +147,10 @@ GeoLocator.lookup = function (ip, callback) {
         return result;
     }
 
+    /**
+     * 
+     * @param fields
+     */
     function setSearchedFields(fields) {
         for (var iter in fields) {
             if (setupFields[iter]) {
@@ -216,7 +230,10 @@ GeoLocator.lookup = function (ip, callback) {
 
 };
 
-
+/**
+ *
+ * @return {GeoLocator}
+ */
 GeoLocator.cleanServices = function () {
     for (var iter in this.services) {
         if (this.services[iter].active !== true) {
