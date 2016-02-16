@@ -148,7 +148,7 @@ GeoLocator.lookup = function (ip, callback) {
     }
 
     /**
-     * 
+     *
      * @param fields
      */
     function setSearchedFields(fields) {

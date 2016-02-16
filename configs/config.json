@@ -3,18 +3,18 @@
     "maxmind-dat": {
       "type": "local",
       "dbfile": "/var/www/GeoLiteCity.dat",
-      "active": true,
+      "active": false,
       "priority": 30
     },
     "maxmind-mmdb": {
       "type": "local",
       "dbfile": "/var/www/GeoLite2-City.mmdb",
-      "active": true,
+      "active": false,
       "priority": 1
     },
     "ipinfo": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 25,
       "requestOptions": {
         "host": "ipinfo.io",
@@ -25,7 +25,7 @@
     },
     "freegeoip": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 20,
       "requestOptions": {
         "host": "freegeoip.net",
@@ -36,7 +36,7 @@
     },
     "ip-api": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 10,
       "requestOptions": {
         "host": "ip-api.com",
@@ -47,9 +47,9 @@
     },
     "ipgeobase": {
       "type": "local",
-      "active": false,
-      "priority": 15,
-      "cidrdb": "/var/www/stuff/data/www/geolocation.loc/data/cidr_optim.txt",
+      "active": true,
+      "priority": 1,
+      "cidrdb": "/var/www/stuff/data/www/geolocator.loc/data/cidr_optim.txt",
       "citiesdb": "/var/www/stuff/data/www/geolocation.loc/data/cities.txt",
       "countries": [
         "ua",
@@ -58,7 +58,7 @@
     },
     "geobytes": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 50,
       "requestOptions": {
         "host": "getcitydetails.geobytes.com",
@@ -80,7 +80,7 @@
     "regionCode": false
   },
   "commonOptions": {
-    "checkLevel": 2,
+    "checkLevel": 1,
     "checkField": "countryCode"
   }
 }
