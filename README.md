@@ -48,11 +48,12 @@ Including:
   geo.setOptions(options);
    ```
 
-   Also you can manage services. To disable services:
+   Also you can manage services. This example disables `ip-api` service and set `ipinfo` priority level to 10(less level value - higher priority)
 
    ```
    options.services = {};
    options.services['ip-api'] = false;
+   options.services['ipinfo'] = 10;
    options.services['maxmind-mmdb'] = false;
    ```
 
