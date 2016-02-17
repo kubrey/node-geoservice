@@ -12,10 +12,6 @@ var fs = require('fs'),
     stream = require('stream');
 
 
-
-var instreamCity = fs.createReadStream(cities);
-
-
 /**
  *
  * @param geoResult
@@ -86,6 +82,7 @@ function findCountry(ip, callback) {
  * @param callback
  */
 function findDetailedData(found, callback) {
+    var instreamCity = fs.createReadStream(cities);
     var outstream = new stream;
     outstream.readable = true;
     outstream.writable = true;
