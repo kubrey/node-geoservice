@@ -4,7 +4,7 @@ Geolocator is a library covering multiple free geoservices
 Including:
  - Maxmind (v1) `maxmind-dat`
  - Maxmind (v2) `maxmind-mmdb`
- - Ipgeobase `ipgeobase`
+ - Ipgeobase `ipgeobase` has city, regions and coordinates for Russia and Ukraine only
  - Ip-api.com `ip-api`
  - Ipinfo.io `ipinfo`
  - Freegeoip.net `freegeoip`
@@ -43,7 +43,7 @@ Including:
 
   ```
   var options = {};
-  options.fields = [];
+  options.fields = {};
   options.fields.city = true;
   geo.setOptions(options);
    ```
@@ -56,7 +56,7 @@ Including:
    options.services['ipinfo'] = 10;
    ```
 
-   You can tell geolocator to doublecheck found result by necessary field:
+   You can tell geolocator to doublecheck found result by one field:
 
    ```
    options.common = {};
