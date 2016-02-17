@@ -80,7 +80,7 @@
     "regionCode": false
   },
   "commonOptions": {
-    "checkLevel": 2,
+    "checkLevel": 1,
     "checkField": "countryCode"
   }
 }
