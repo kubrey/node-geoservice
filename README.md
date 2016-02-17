@@ -54,7 +54,6 @@ Including:
    options.services = {};
    options.services['ip-api'] = false;
    options.services['ipinfo'] = 10;
-   options.services['maxmind-mmdb'] = false;
    ```
 
    You can tell geolocator to doublecheck found result by necessary field:
