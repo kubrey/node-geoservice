@@ -14,9 +14,11 @@ Including:
 
  `
   var geo = require("geolocator");
+
   geo.lookup('8.8.8.8', function (err, result) {
       console.log(err,result);
    });
+
   `
 
   `result` is an object containing these properties:
