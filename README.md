@@ -2,13 +2,13 @@ Geolocator is a library covering multiple free geoservices
 ==========================================================
 
 Including:
- - Maxmind (v1), .dat files
- - Maxmind (v2), .mmdb files
- - Ipgeobase
- - Ip-api.com
- - Ipinfo.io
- - Freegeoip.net
- - Geobytes.com
+ - Maxmind (v1) `maxmind-dat`
+ - Maxmind (v2) `maxmind-mmdb`
+ - Ipgeobase `ipgeobase`
+ - Ip-api.com `ip-api`
+ - Ipinfo.io `ipinfo`
+ - Freegeoip.net `freegeoip`
+ - Geobytes.com `geobytes`
 
  ### Usage
 
