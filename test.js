@@ -11,7 +11,6 @@ var geo = require("./app");
 
 geo.setOptions(options);
 
-console.log(parseInt('34'));
 
 geo.lookup('8.8.8.8', function (err, result) {
     console.log(err, result);

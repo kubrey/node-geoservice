@@ -11,10 +11,7 @@ var fs = require('fs'),
     readline = require('readline'),
     stream = require('stream');
 
-var instream = fs.createReadStream(cird);
-var outstream = new stream;
-outstream.readable = true;
-outstream.writable = true;
+
 
 var instreamCity = fs.createReadStream(cities);
 
@@ -54,6 +51,10 @@ function formalize(geoResult, extra) {
  * @param callback
  */
 function findCountry(ip, callback) {
+    var instream = fs.createReadStream(cird);
+    var outstream = new stream;
+    outstream.readable = true;
+    outstream.writable = true;
     var start = new Date();
     var rl = readline.createInterface({
         input: instream,
@@ -85,6 +86,9 @@ function findCountry(ip, callback) {
  * @param callback
  */
 function findDetailedData(found, callback) {
+    var outstream = new stream;
+    outstream.readable = true;
+    outstream.writable = true;
     var rlCity = readline.createInterface({
         input: instreamCity,
         output: outstream,
