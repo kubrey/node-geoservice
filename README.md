@@ -32,8 +32,8 @@ Including:
 
   And also some technical properties:
   - method (last used method)
-  - usedMethods (methods used to find requested data)
-  - requestTime (search time, ms)
+  - usedMethods (methods used to find requested data and search time fot each of them)
+  - requestTime (whole search time, ms)
 
   ### Configuration
 
