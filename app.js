@@ -65,6 +65,7 @@ GeoLocator.setOptions = function (options) {
  * @param callback
  */
 GeoLocator.lookup = function (ip, callback) {
+    console.log(ip);
     if (this.optionsError !== null) {
         callback(this.optionsError, null);
     }

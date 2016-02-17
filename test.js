@@ -15,6 +15,7 @@ geo.setOptions(options);
 //geo.lookup('8.8.8.8', function (err, result) {
 //    console.log(err, result);
 //});
+
 var avgTime = 0, attempts = 0, fullTime = 0;
 setInterval(function () {
     //options.services['ip-api'] = true;
@@ -24,7 +25,7 @@ setInterval(function () {
             return;
         }
         ++attempts;
-        var clone = JSON.parse(JSON.stringify(result))
+        var clone = JSON.parse(JSON.stringify(result));
         fullTime = parseInt(clone.requestTime) + fullTime;
         avgTime = fullTime / attempts;
         console.log(result.usedMethods, result.requestTime, avgTime, attempts);
