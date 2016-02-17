@@ -48,6 +48,21 @@ function sortProperties(obj, isNumericSort, property, direction) {
     return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
 }
 
+/**
+ *
+ * @param ip should be ipv4
+ * @return {number}
+ */
+function ip2long(ip) {
+    var ipl = 0;
+    ip.split('.').forEach(function (octet) {
+        ipl <<= 8;
+        ipl += parseInt(octet);
+    });
+    return (ipl >>> 0);
+}
+
 module.exports = {
-    sort: sortProperties
+    sort: sortProperties,
+    ip2long: ip2long
 };

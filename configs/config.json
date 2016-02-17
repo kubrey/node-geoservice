@@ -50,7 +50,7 @@
       "active": true,
       "priority": 1,
       "cidrdb": "/var/www/stuff/data/www/geolocator.loc/data/cidr_optim.txt",
-      "citiesdb": "/var/www/stuff/data/www/geolocation.loc/data/cities.txt",
+      "citiesdb": "/var/www/stuff/data/www/geolocator.loc/data/cities.txt",
       "countries": [
         "ua",
         "ru"

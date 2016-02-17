@@ -59,7 +59,7 @@ IpApi.prototype.lookup = function (ip, callback) {
     var start = new Date();
     var req = http.request(options, function (res) {
         self.requestTime = new Date() - start;
-        var extra = {requestTime: self.requestTime}
+        var extra = {requestTime: self.requestTime};
         if (res.statusCode !== 200) {
             callback("status code " + res.statusCode, null);
             return;
