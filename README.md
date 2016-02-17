@@ -19,7 +19,7 @@ Including:
    });
   ```
 
-  `result` is an object containing these properties:
+  `result` is an object containing these geo-properties:
   - city
   - countryCode
   - countryName
@@ -29,6 +29,11 @@ Including:
   - zip
   - regionName
   - regionCode
+
+  And also some technical properties:
+  - method (last used method)
+  - usedMethods (methods used to find requested data)
+  - requestTime (search time, ms)
 
   ### Configuration
 
