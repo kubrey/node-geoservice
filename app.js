@@ -126,9 +126,11 @@ GeoLocator.lookup = function (ip, callback) {
         }
 
         var methods = [];
+        var requestTime = 0;
 
         for (var iterFirst in accumulatedResult) {
-            methods.push(accumulatedResult[iterFirst].method)
+            methods[accumulatedResult[iterFirst].method] = accumulatedResult[iterFirst].requestTime;
+            requestTime += accumulatedResult[iterFirst].requestTime;
         }
 
 
@@ -142,6 +144,8 @@ GeoLocator.lookup = function (ip, callback) {
                 }
             }
         }
+
+        result.requestTime = requestTime;
 
         result.usedMethods = methods;
         return result;
@@ -185,10 +189,11 @@ GeoLocator.lookup = function (ip, callback) {
     var cbStack = 0;
 
     sorted = helper.sort(this.services, true, 'priority', 'asc');
+    //console.log(sorted);
 
     var queue = async.priorityQueue(function (task, callback) {
         callback(task.ip, task.callback);
-    }, 1);
+    }, 6);
 
     for (var service in sorted) {
         ++cbStack;
