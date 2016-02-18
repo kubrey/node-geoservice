@@ -16,10 +16,23 @@ var setCommonOptions = conf.get('commonOptions');
  */
 function GeoLocator() {
     this.options;
-    this.optionsError = null;
-    this.services;
+    this.optionsError;
+
     this.commonOptions;
+    this.services;
 }
+
+/**
+ * Initialization
+ * @param options
+ */
+GeoLocator.init = function (options) {
+    this.options = options;
+    this.optionsError = null;
+
+    this.commonOptions = JSON.parse(JSON.stringify(setCommonOptions));
+    this.services = JSON.parse(JSON.stringify(setServices));
+};
 
 /**
  *
@@ -27,15 +40,13 @@ function GeoLocator() {
  * @return {GeoLocator}
  */
 GeoLocator.setOptions = function (options) {
-    this.options = options;
-    this.optionsError = null;
-    this.commonOptions = JSON.parse(JSON.stringify(setCommonOptions));
-    this.services = JSON.parse(JSON.stringify(setServices));
-
+    this.init(options);
     if (options !== undefined) {
         if (options.services !== undefined && Object.keys(options.services).length) {
             for (var iter in options.services) {
-                this.services[iter]['active'] = options.services[iter];
+                if (this.services[iter] !== undefined) {
+                    this.services[iter]['active'] = options.services[iter];
+                }
             }
         }
         if (options.common !== undefined && Object.keys(options.common).length) {
@@ -65,10 +76,15 @@ GeoLocator.setOptions = function (options) {
  * @param callback
  */
 GeoLocator.lookup = function (ip, callback) {
-    console.log(ip);
-    if (this.optionsError !== null) {
+    if (this.optionsError !== null && this.optionsError !== undefined) {
         callback(this.optionsError, null);
     }
+
+
+    if (this.options === undefined) {
+        this.init({});
+    }
+
     var self = this;
     var options = this.options;
     var accumulatedResult = [], isDone = false;
@@ -169,23 +185,28 @@ GeoLocator.lookup = function (ip, callback) {
         return;
     }
 
-    if (options) {
+    if (options && Object.keys(options).length) {
         options.fields = options.fields || {};
         if (options.fields.length) {
             //preventing service fields to be updated outside of this particular ip-data search
             //var setupFields = util._extend({}, setupFields);
         }
         setSearchedFields(options.fields);
-        if (options.services.length) {
+        if (options.services !== undefined && options.services.length) {
             //preventing services status to be updated outside of this particular ip-data search
             //var services = util._extend({}, services);
         }
         //options.services = options.services || {};
         //setSearchServices(options.services);
+    } else {
+        setSearchedFields({});
     }
 
 
     this.cleanServices();
+    if (!Object.keys(this.services).length) {
+        callback("No methods are allowed", null);
+    }
 
     var cbStack = 0;
 
@@ -194,13 +215,14 @@ GeoLocator.lookup = function (ip, callback) {
 
     var queue = async.priorityQueue(function (task, callback) {
         callback(task.ip, task.callback);
-    }, 6);
+    }, 7);
 
     for (var service in sorted) {
         ++cbStack;
         var fn = require(path.join(__dirname, "services/" + sorted[service][0]));
         var cb = function (err, result) {
             --cbStack;
+            console.log(cbStack);
             if (!err) {
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
@@ -219,6 +241,7 @@ GeoLocator.lookup = function (ip, callback) {
                 //all services have already run but not all required fields found ->
                 callback("Geo data was not found", null);
             }
+            //console.log(accumulatedResult);
         };
         queue.push({
             title: sorted[service][0],
@@ -228,7 +251,8 @@ GeoLocator.lookup = function (ip, callback) {
     }
 
     queue.drain = function () {
-        if (accumulatedResult) {
+        console.log('killed');
+        if (accumulatedResult && isDone) {
             queue.kill();
             queue.tasks = [];
         }
