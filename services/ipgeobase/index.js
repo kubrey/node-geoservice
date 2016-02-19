@@ -57,6 +57,7 @@ function findCountry(ip, callback) {
         output: outstream,
         terminal: false
     });
+    var found = false;
     rl.on('line', function (line) {
         var lineRow = line.split("\t");
         var long = helper.ip2long(ip);
@@ -70,10 +71,16 @@ function findCountry(ip, callback) {
             } else {
                 findDetailedData({countryCode: lineRow[3], id: parseInt(lineRow[4]), start: start}, callback);
             }
-            return;
+            found = true;
+            rl.close();
         }
     });
-    callback("Country not found", null);
+    rl.on('close', function () {
+        if (!found) {
+            callback("Country not found in ipgeobase", null);
+        }
+    });
+
 }
 
 /**

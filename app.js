@@ -15,11 +15,11 @@ var setCommonOptions = conf.get('commonOptions');
  * @constructor
  */
 function GeoLocator() {
-    this.options;
-    this.optionsError;
-
-    this.commonOptions;
-    this.services;
+    //this.options;
+    //this.optionsError;
+    //
+    //this.commonOptions;
+    //this.services;
 }
 
 /**
@@ -91,6 +91,8 @@ GeoLocator.lookup = function (ip, callback) {
     var sorted;
     var setupFields = JSON.parse(JSON.stringify(setFields));
 
+    console.log("----------start--------", ip, isDone, "---------------------");
+
     /**
      *
      * @return {boolean}
@@ -125,6 +127,10 @@ GeoLocator.lookup = function (ip, callback) {
                         return true;
                     }
                 }
+            }
+            var res = Object.keys(accumulatedResult).length === Object.keys(self.services).length ? true : false;
+            if (cbStack < 0) {
+                console.log(res);
             }
             return Object.keys(accumulatedResult).length === Object.keys(self.services).length ? true : false;
         }
@@ -208,24 +214,33 @@ GeoLocator.lookup = function (ip, callback) {
         callback("No methods are allowed", null);
     }
 
-    var cbStack = 0;
+    //var cbStack = 0;
 
     sorted = helper.sort(this.services, true, 'priority', 'asc');
-    //console.log(sorted);
 
     var queue = async.priorityQueue(function (task, callback) {
         callback(task.ip, task.callback);
-    }, 7);
+    }, 3);
 
+    var tries = 0;
+    var cbStack = Object.keys(sorted).length;
+    console.log(cbStack + " - all methods");
     for (var service in sorted) {
-        ++cbStack;
+        //++cbStack;
+
         var fn = require(path.join(__dirname, "services/" + sorted[service][0]));
         var cb = function (err, result) {
-            --cbStack;
-            console.log(cbStack);
+            tries++;
+            console.log("tries: " + tries);
+            cbStack--;
             if (!err) {
+                console.log(result.method+" found");
+                if (cbStack < 0) {
+                    //console.log("???????", result);
+                }
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
+                    console.log('found+');
                     isDone = true;
                     //console.log('finished and killed; ' + queue.running());
                     //
@@ -240,8 +255,15 @@ GeoLocator.lookup = function (ip, callback) {
             if (cbStack === 0 && !isDone) {
                 //all services have already run but not all required fields found ->
                 callback("Geo data was not found", null);
+
+                queue.kill();
+                queue.tasks = [];
+                return;
             }
-            //console.log(accumulatedResult);
+            else {
+                //console.log("not verified", accumulatedResult);
+            }
+
         };
         queue.push({
             title: sorted[service][0],
@@ -251,7 +273,6 @@ GeoLocator.lookup = function (ip, callback) {
     }
 
     queue.drain = function () {
-        console.log('killed');
         if (accumulatedResult && isDone) {
             queue.kill();
             queue.tasks = [];
@@ -273,5 +294,6 @@ GeoLocator.cleanServices = function () {
 
     return this;
 };
+
 
 module.exports = GeoLocator;

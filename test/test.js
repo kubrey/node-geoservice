@@ -84,12 +84,12 @@ describe('Geolocator common function', function () {
             },
             common: {
                 checkField: 'city',
-                checkLevel: 8
+                checkLevel: 3
             }
         });
         geo.lookup('8.8.8.8', function (err, result) {
             console.log(err,result);
-            assert.isNotNull(err, "No data");
+            assert.isObject(result, "No data");
         });
     });
 });

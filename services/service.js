@@ -2,7 +2,7 @@
 
 var path = require("path");
 var conf = require(path.join(__dirname, "../configs"));
-const http = require('http');
+var http = require('http');
 var util = require('util');
 
 function BaseService() {
@@ -41,14 +41,17 @@ BaseService.prototype.formalize = function (result, extra) {
  * @param {Function} callback
  */
 BaseService.prototype.lookup = function (ip, callback) {
+    //console.log(this.method);
     var options = util._extend({}, this.config.requestOptions);
     options.path = options.path.replace('{{ip}}', ip);
+    options.timeout = 5000;
     var self = this;
     var start = new Date();
     var req = http.request(options, function (res) {
         self.requestTime = new Date() - start;
-        var extra = {requestTime: self.requestTime}
+        var extra = {requestTime: self.requestTime};
         if (res.statusCode !== 200) {
+            console.log("callback called - status");
             callback("status code " + res.statusCode, null);
             return;
         }
@@ -57,14 +60,13 @@ BaseService.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
+            console.log("callback called - end"+self.method);
             callback(null, self.formalize(answer, extra));
-            //res.end();
         });
     }).on('error', function (err) {
+        err.method = self.method;
+        console.log("callback called - err"+self.method);
         callback(err, null);
-    }).setTimeout(5000, function () {
-        req.abort();
-        callback("Timeout", null);
     });
 
     req.end();

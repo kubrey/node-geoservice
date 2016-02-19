@@ -55,6 +55,7 @@ IpApi.prototype.lookup = function (ip, callback) {
     var options = util._extend({}, this.config.requestOptions);
 
     options.path = options.path.replace('{{ip}}', ip);
+    options.timeout = 5000;
     var self = this;
     var start = new Date();
     var req = http.request(options, function (res) {
@@ -82,11 +83,7 @@ IpApi.prototype.lookup = function (ip, callback) {
             //res.end();
         });
     }).on('error', function (err) {
-        console.log(err);
         callback(err, null);
-    }).setTimeout(5000, function () {
-        req.abort();
-        callback("Timeout", null);
     });
 
     req.end();
