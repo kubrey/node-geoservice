@@ -219,6 +219,7 @@ GeoLocator.lookup = function (ip, callback) {
     sorted = helper.sort(this.services, true, 'priority', 'asc');
 
     var queue = async.priorityQueue(function (task, callback) {
+        console.log("run ", task.title);
         callback(task.ip, task.callback);
     }, 3);
 
@@ -227,20 +228,20 @@ GeoLocator.lookup = function (ip, callback) {
     console.log(cbStack + " - all methods");
     for (var service in sorted) {
         //++cbStack;
-
-        var fn = require(path.join(__dirname, "services/" + sorted[service][0]));
+        var servFile = path.join(__dirname, "services/" + sorted[service][0]);
+        //console.log(servFile);
+        var fn = require(servFile);
         var cb = function (err, result) {
             tries++;
-            console.log("tries: " + tries);
+            console.log("tries: " + tries, result.method, "left " + cbStack);
             cbStack--;
             if (!err) {
-                console.log(result.method+" found");
+                console.log(result.method + " found");
                 if (cbStack < 0) {
                     //console.log("???????", result);
                 }
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
-                    console.log('found+');
                     isDone = true;
                     //console.log('finished and killed; ' + queue.running());
                     //
@@ -252,19 +253,16 @@ GeoLocator.lookup = function (ip, callback) {
                     return;
                 }
             }
-            if (cbStack === 0 && !isDone) {
+            if (cbStack <= 0 && !isDone) {
+                console.log('nofound');
                 //all services have already run but not all required fields found ->
                 callback("Geo data was not found", null);
-
                 queue.kill();
                 queue.tasks = [];
-                return;
-            }
-            else {
-                //console.log("not verified", accumulatedResult);
             }
 
         };
+        //console.log(sorted[service][1].priority);
         queue.push({
             title: sorted[service][0],
             ip: ip,
@@ -273,6 +271,7 @@ GeoLocator.lookup = function (ip, callback) {
     }
 
     queue.drain = function () {
+        console.log('drain');
         if (accumulatedResult && isDone) {
             queue.kill();
             queue.tasks = [];

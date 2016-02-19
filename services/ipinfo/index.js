@@ -21,7 +21,7 @@ Ipinfo.prototype.loadConfigs();
  * @param object extra
  * @return {{city: (*|string|null), countryCode: (*|string|string|string|null), countryName: null, regionName: (string|*|null), zip: (*|null), latitude: *, longitude: *, isp: (*|null), method: *}}
  */
-Ipinfo.prototype.formalize = function (geo,extra) {
+Ipinfo.prototype.formalize = function (geo, extra) {
     var lat = null, lon = null;
     try {
         var geoResult = JSON.parse(geo);

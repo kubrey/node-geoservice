@@ -42,6 +42,7 @@ BaseService.prototype.formalize = function (result, extra) {
  */
 BaseService.prototype.lookup = function (ip, callback) {
     //console.log(this.method);
+    //console.log(this.method + " running");
     var options = util._extend({}, this.config.requestOptions);
     options.path = options.path.replace('{{ip}}', ip);
     options.timeout = 5000;
@@ -60,12 +61,12 @@ BaseService.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
-            console.log("callback called - end"+self.method);
+            console.log("callback called - end" + self.method);
             callback(null, self.formalize(answer, extra));
         });
     }).on('error', function (err) {
         err.method = self.method;
-        console.log("callback called - err"+self.method);
+        console.log("callback called - err" + self.method);
         callback(err, null);
     });
 

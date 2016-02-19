@@ -3,10 +3,13 @@
 var assert = require("chai").assert;
 var geo = require('../app');
 
+
+
+//
+//
 describe('Geolocator common function', function () {
     before(function () {
         console.log('starting...');
-        geo.setOptions({});
     });
     it("getting ip data as object(valid ip)", function () {
         geo.lookup('8.8.8.8', function (err, result) {
@@ -78,17 +81,15 @@ describe('Geolocator common function', function () {
     });
 
     it("Double check level is too high - should return error", function () {
-        geo.setOptions({
-            fields: {
-                city: true
-            },
-            common: {
-                checkField: 'city',
-                checkLevel: 3
-            }
-        });
+        var options = {};
+        options.services = [];
+        options.fields = {city: true};
+        options.common = [];
+        options.common.checkLevel = 4;
+        options.common.checkField = 'countryCode';
+        geo.setOptions(options);
         geo.lookup('8.8.8.8', function (err, result) {
-            console.log(err,result);
+            console.log(err, result);
             assert.isObject(result, "No data");
         });
     });

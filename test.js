@@ -2,10 +2,10 @@
 
 var options = {};
 options.services = [];
-options.fields = [];
+options.fields = {city:true};
 options.common = [];
-options.common.checkLevel = 8;
-options.common.checkField = 'countryCode';
+options.common.checkLevel = 4;
+options.common.checkField = 'city';
 //options.services['ip-api'] = false;
 var geo = require("./app");
 
