@@ -2,7 +2,7 @@
   "services": {
     "maxmind-dat": {
       "type": "local",
-      "dbfile": "/var/www/GeoLiteCity.dat",
+      "dbfile": "/var12/www/GeoLiteCity.dat",
       "active": true,
       "priority": 1
     },

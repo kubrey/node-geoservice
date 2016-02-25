@@ -128,10 +128,8 @@ GeoLocator.lookup = function (ip, callback) {
                     }
                 }
             }
-            var res = Object.keys(accumulatedResult).length === Object.keys(self.services).length ? true : false;
-            if (cbStack < 0) {
-                console.log(res);
-            }
+            //var res = Object.keys(accumulatedResult).length === Object.keys(self.services).length ? true : false;
+            //console.log(res);
             return Object.keys(accumulatedResult).length === Object.keys(self.services).length ? true : false;
         }
         return true;
@@ -225,7 +223,7 @@ GeoLocator.lookup = function (ip, callback) {
 
     var tries = 0;
     var cbStack = Object.keys(sorted).length;
-    console.log(cbStack + " - all methods");
+    //console.log(cbStack + " - all methods");
     for (var service in sorted) {
         //++cbStack;
         var servFile = path.join(__dirname, "services/" + sorted[service][0]);
@@ -233,7 +231,8 @@ GeoLocator.lookup = function (ip, callback) {
         var fn = require(servFile);
         var cb = function (err, result) {
             tries++;
-            console.log("tries: " + tries, result.method, "left " + cbStack);
+            console.log('finished and killed; ' + queue.running(),queue.started);
+            //console.log("tries: " + tries, result.method, "left " + cbStack);
             cbStack--;
             if (!err) {
                 console.log(result.method + " found");
@@ -243,22 +242,26 @@ GeoLocator.lookup = function (ip, callback) {
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
                     isDone = true;
-                    //console.log('finished and killed; ' + queue.running());
+
                     //
-                    //console.log('is idle; ' + queue.idle());
+                    console.log('is idle; ' + queue.idle());
                     var res = handleAccumulated();
-                    queue.kill();
-                    queue.tasks = [];
+                    //queue.kill();
+                    //queue.tasks = [];
                     callback(null, res);
-                    return;
+                    //return;
+                }else {
+                    console.log('not completed');
                 }
+            } else {
+                console.log("err",err);
             }
             if (cbStack <= 0 && !isDone) {
                 console.log('nofound');
                 //all services have already run but not all required fields found ->
                 callback("Geo data was not found", null);
-                queue.kill();
-                queue.tasks = [];
+                //queue.kill();
+                //queue.tasks = [];
             }
 
         };
@@ -271,12 +274,15 @@ GeoLocator.lookup = function (ip, callback) {
     }
 
     queue.drain = function () {
-        console.log('drain');
         if (accumulatedResult && isDone) {
             queue.kill();
             queue.tasks = [];
         }
     };
+
+    queue.empty = function(){
+        console.log('all passed');
+    }
 
 };
 

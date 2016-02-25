@@ -54,8 +54,12 @@ IpApi.prototype.formalize = function (geo, extra) {
 IpApi.prototype.lookup = function (ip, callback) {
     var options = util._extend({}, this.config.requestOptions);
 
+
     options.path = options.path.replace('{{ip}}', ip);
     options.timeout = 5000;
+    console.log('fsdfsdfsdfd++++');
+    callback("ERR",null);
+    return;
     var self = this;
     var start = new Date();
     var req = http.request(options, function (res) {
@@ -70,6 +74,7 @@ IpApi.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
+            console.log(ip, 'asdfsaf');
             try {
                 var json = JSON.parse(answer);
                 if (json.status !== "success") {
@@ -83,6 +88,7 @@ IpApi.prototype.lookup = function (ip, callback) {
             //res.end();
         });
     }).on('error', function (err) {
+        console.log(ip, 'asdfsafERR');
         callback(err, null);
     });
 

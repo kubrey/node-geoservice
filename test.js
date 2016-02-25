@@ -9,14 +9,19 @@ options.common.checkField = 'city';
 //options.services['ip-api'] = false;
 var geo = require("./app");
 
+//geo.setOptions(options);
+
+
+options = {};
+options.services = [];
+options.fields = {city: true};
+options.common = [];
+options.common.checkLevel = 4;
+options.common.checkField = 'countryCode';
 geo.setOptions(options);
-
-
 geo.lookup('8.8.8.8', function (err, result) {
-    console.log('<<<<<<<<<<<<<<<>>>>>>>>>>>>>>');
     console.log(err, result);
 });
-
 
 
 var avgTime = 0, attempts = 0, fullTime = 0;

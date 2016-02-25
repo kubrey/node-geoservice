@@ -59,16 +59,20 @@ function findCountry(ip, callback) {
     });
     var found = false;
     rl.on('line', function (line) {
+        //console.log(line);
         var lineRow = line.split("\t");
         var long = helper.ip2long(ip);
         if (long >= lineRow[0] && long <= lineRow[1]) {
             if (isNaN(parseInt(lineRow[4]))) {
+                console.log('callback ipgeo1');
                 var extra = {requestTime: new Date() - start};
                 callback(null, formalize({
                     countryCode: lineRow[3],
                     method: path.basename(path.dirname(__filename))
                 }, extra));
+
             } else {
+                console.log('callback ipgeo');
                 findDetailedData({countryCode: lineRow[3], id: parseInt(lineRow[4]), start: start}, callback);
             }
             found = true;
@@ -76,7 +80,9 @@ function findCountry(ip, callback) {
         }
     });
     rl.on('close', function () {
+        console.log(found);
         if (!found) {
+            console.log('callback closing');
             callback("Country not found in ipgeobase", null);
         }
     });
