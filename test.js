@@ -11,14 +11,14 @@ var geo = require("./app");
 
 //geo.setOptions(options);
 
-
-options = {};
-options.services = [];
-options.fields = {city: true};
-options.common = [];
-options.common.checkLevel = 4;
-options.common.checkField = 'countryCode';
-geo.setOptions(options);
+//
+//options = {};
+//options.services = {};
+//options.fields = {city: true};
+//options.common = {};
+//options.common.checkLevel = 4;
+//options.common.checkField = 'countryCode';
+//geo.setOptions(options);
 geo.lookup('8.8.8.8', function (err, result) {
     console.log(err, result);
 });

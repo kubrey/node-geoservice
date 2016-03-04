@@ -1,0 +1,86 @@
+{
+    "services": {
+    "maxmind-dat": {
+        "type": "local",
+            "dbfile": "/var12/www/GeoLiteCity.dat",
+            "active": true,
+            "priority": 1
+    },
+    "maxmind-mmdb": {
+        "type": "local",
+            "dbfile": "/var/www/GeoLite2-City.mmdb",
+            "active": false,
+            "priority": 30
+    },
+    "ipinfo": {
+        "type": "service",
+            "active": true,
+            "priority": 25,
+            "requestOptions": {
+            "host": "ipinfo.io",
+                "method": "GET",
+                "port": 80,
+                "path": "/{{ip}}"
+        }
+    },
+    "freegeoip": {
+        "type": "service",
+            "active": true,
+            "priority": 20,
+            "requestOptions": {
+            "host": "freegeoip.net",
+                "port": 80,
+                "path": "/json/{{ip}}",
+                "method": "GET"
+        }
+    },
+    "ip-api": {
+        "type": "service",
+            "active": true,
+            "priority": 10,
+            "requestOptions": {
+            "host": "ip-api.com",
+                "path": "/json/{{ip}}",
+                "port": 80,
+                "method": "GET"
+        }
+    },
+    "ipgeobase": {
+        "type": "local",
+            "active": true,
+            "priority": 2,
+            "cidrdb": "/var/www/stuff/data/www/geolocator.loc/data/cidr_optim.txt",
+            "citiesdb": "/var/www/stuff/data/www/geolocator.loc/data/cities.txt",
+            "countries": [
+            "ua",
+            "ru"
+        ]
+    },
+    "geobytes": {
+        "type": "service",
+            "active": true,
+            "priority": 50,
+            "requestOptions": {
+            "host": "getcitydetails.geobytes.com",
+                "path": "/GetCityDetails?fqcn={{ip}}",
+                "port": 80,
+                "method": "GET"
+        }
+    }
+},
+    "geoObject": {
+    "city": false,
+        "countryCode": true,
+        "countryName": false,
+        "latitude": false,
+        "longitude": false,
+        "isp": false,
+        "zip": false,
+        "regionName": false,
+        "regionCode": false
+},
+    "commonOptions": {
+    "checkLevel": 1,
+        "checkField": "countryCode"
+}
+}

@@ -53,13 +53,8 @@ IpApi.prototype.formalize = function (geo, extra) {
 
 IpApi.prototype.lookup = function (ip, callback) {
     var options = util._extend({}, this.config.requestOptions);
-
-
     options.path = options.path.replace('{{ip}}', ip);
     options.timeout = 5000;
-    console.log('fsdfsdfsdfd++++');
-    callback("ERR",null);
-    return;
     var self = this;
     var start = new Date();
     var req = http.request(options, function (res) {
