@@ -58,6 +58,7 @@ function findCountry(ip, callback) {
         terminal: false
     });
     var found = false;
+    //callback(null,{});
     rl.on('line', function (line) {
         //console.log(line);
 
@@ -84,9 +85,7 @@ function findCountry(ip, callback) {
         }
     });
     rl.on('close', function () {
-        console.log('--------------------------');
         if (!found) {
-            console.log('callback closing');
             callback("Country not found in ipgeobase", null);
         }
     });

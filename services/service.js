@@ -4,6 +4,7 @@ var path = require("path");
 var conf = require(path.join(__dirname, "../configs"));
 var http = require('http');
 var util = require('util');
+var debug = require('debug')(conf.get('projectName')+":service");
 
 function BaseService() {
     this.method;
@@ -52,7 +53,7 @@ BaseService.prototype.lookup = function (ip, callback) {
         self.requestTime = new Date() - start;
         var extra = {requestTime: self.requestTime};
         if (res.statusCode !== 200) {
-            console.log("callback called - status");
+            debug("callback called - status");
             callback("status code " + res.statusCode, null);
             return;
         }
@@ -61,12 +62,12 @@ BaseService.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
-            console.log("callback called - end" + self.method);
+           debug("callback called - end" + self.method);
             callback(null, self.formalize(answer, extra));
         });
     }).on('error', function (err) {
         err.method = self.method;
-        console.log("callback called - err" + self.method);
+        debug("callback called - err" + self.method);
         callback(err, null);
     });
 

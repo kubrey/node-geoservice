@@ -3,7 +3,8 @@
 var path = require('path');
 var util = require('util');
 var BaseService = require(path.join(__dirname, "../service"));
-const http = require('http')
+const http = require('http');
+var debug = require('debug')(require(path.join(__dirname,"../../configs")).get('projectName')+":service");
 
 
 function IpApi() {
@@ -69,7 +70,7 @@ IpApi.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
-            console.log(ip, 'asdfsaf');
+            debug(ip, 'asdfsaf');
             try {
                 var json = JSON.parse(answer);
                 if (json.status !== "success") {
@@ -83,7 +84,7 @@ IpApi.prototype.lookup = function (ip, callback) {
             //res.end();
         });
     }).on('error', function (err) {
-        console.log(ip, 'asdfsafERR');
+        debug(ip, 'asdfsafERR');
         callback(err, null);
     });
 
