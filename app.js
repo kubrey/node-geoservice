@@ -29,7 +29,7 @@ function GeoLocator() {
 GeoLocator.init = function (options) {
     this.options = options;
     this.optionsError = null;
-    console.log(conf.get(),"2132432");
+    //console.log(conf.get(),"2132432");
 
     this.commonOptions = JSON.parse(JSON.stringify(setCommonOptions));
     this.services = JSON.parse(JSON.stringify(setServices));
@@ -243,8 +243,6 @@ GeoLocator.lookup = function (ip, callback) {
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
                     isDone = true;
-
-                    //
                     console.log('is idle; ' + queue.idle());
                     var res = handleAccumulated();
                     //queue.kill();
