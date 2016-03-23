@@ -19,6 +19,7 @@
     "debug": "^2.2.0",
     "geoip-lite": "^1.1.6",
     "maxmind-db-reader": "^0.2.1",
-    "nconf": "^0.8.4"
+    "nconf": "^0.8.4",
+    "nock": "^7.5.0"
   }
 }

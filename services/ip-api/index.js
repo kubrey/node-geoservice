@@ -70,7 +70,6 @@ IpApi.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
-            debug(ip, 'asdfsaf');
             try {
                 var json = JSON.parse(answer);
                 if (json.status !== "success") {
@@ -84,7 +83,6 @@ IpApi.prototype.lookup = function (ip, callback) {
             //res.end();
         });
     }).on('error', function (err) {
-        debug(ip, 'asdfsafERR');
         callback(err, null);
     });
 
