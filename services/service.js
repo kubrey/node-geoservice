@@ -4,7 +4,7 @@ var path = require("path");
 var conf = require(path.join(__dirname, "../configs"));
 var http = require('http');
 var util = require('util');
-var debug = require('debug')(conf.get('projectName')+":service");
+var debug = require('debug')(conf.get('projectName') + ":service");
 
 function BaseService() {
     this.method;
@@ -62,8 +62,25 @@ BaseService.prototype.lookup = function (ip, callback) {
         res.on('data', function (chunk) {
             answer += chunk;
         }).on('end', function () {
-           debug("callback called - end" + self.method);
-            callback(null, self.formalize(answer, extra));
+            if (!answer) {
+                callback("Empty response", null);
+                return;
+            }
+            debug("callback called - end" + self.method);
+
+            var resultObj = self.formalize(answer, extra);
+            var isOk = false;
+            for (var key in resultObj) {
+                if (resultObj[key] !== null && (key != 'method' && key != 'requestTime')) {
+                    isOk = true;
+                    break;
+                }
+            }
+            if (!isOk) {
+                callback("Empty response", null);
+            } else {
+                callback(null, resultObj);
+            }
         });
     }).on('error', function (err) {
         err.method = self.method;

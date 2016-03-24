@@ -1,34 +1,46 @@
 "use strict";
 
 var assert = require("chai").assert;
+var expect = require("chai").expect;
 var geo = require('../app');
 
 //
 //
 describe('Geolocator common function', function () {
     before(function () {
-        console.log('starting...');
+
     });
-    it("getting ip data as object(valid ip)", function () {
+    it("getting ip data as object(valid ip)", function (done) {
         geo.lookup('8.8.8.8', function (err, result) {
-            //console.log(err,result);
-            assert.isObject(result, "Return object");
-            //assert.isNull(err,true,"No error");
+            try {
+                expect(result).be.a('object');
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
-    it("getting no error on valid ip", function () {
+    it("getting no error on valid ip", function (done) {
         geo.lookup('8.8.8.8', function (err, result) {
-            //console.log(err,result);
-            assert.isNull(err, "No error");
+            try {
+                expect(result).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
-    it("getting error because of invalid ip", function () {
+    it("getting error because of invalid ip", function (done) {
         geo.lookup('8.8.8.888', function (err, result) {
-            console.log(err);
-            assert.isNotNull(err, "Got error");
+            try {
+                expect(err).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
-    it("getting error because no methods are allowed", function () {
+    it("getting error because no methods are allowed", function (done) {
         geo.setOptions({
             services: {
                 'ip-api': false,
@@ -41,40 +53,58 @@ describe('Geolocator common function', function () {
             }
         });
         geo.lookup('8.8.8.8', function (err, result) {
-            console.log(err);
-            assert.isNotNull(err, "Got error");
+            try {
+                expect(err).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
 
-    it("Setting invalid service name for valid ip - service should be ignored", function () {
+    it("Setting invalid service name for valid ip - service should be ignored", function (done) {
         geo.setOptions({
             services: {
                 'wrong': false
             }
         });
         geo.lookup('8.8.8.8', function (err, result) {
-            //console.log(err,result);
-            assert.isNull(err, "No errors");
+            try {
+                expect(err).be.null;
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
-    it("Setting invalid field name for valid ip - field should be ignored", function () {
+    it("Setting invalid field name for valid ip - field should be ignored", function (done) {
         geo.setOptions({
             fields: {
                 wrong: true
             }
         });
         geo.lookup('8.8.8.8', function (err, result) {
-            assert.isNull(err, "No errors");
+            try {
+                expect(err).be.null;
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
-    it("Setting invalid common option for valid ip - option should be ignored", function () {
+    it("Setting invalid common option for valid ip - option should be ignored", function (done) {
         geo.setOptions({
             common: {
                 wrong: 23
             }
         });
         geo.lookup('8.8.8.8', function (err, result) {
-            assert.isNull(err, "No errors");
+            try {
+                expect(err).be.null;
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
 

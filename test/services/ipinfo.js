@@ -4,9 +4,9 @@ const path = require('path');
 const conf = require(path.join(__dirname, "../../configs"));
 const expect = require("chai").expect;
 
-var service = require(path.join(__dirname, "../../services/geobytes"));
+var service = require(path.join(__dirname, "../../services/ipinfo"));
 
-describe("Testing geobytes", function () {
+describe("Testing ipinfo", function () {
     before(function () {
 
     });
@@ -24,7 +24,6 @@ describe("Testing geobytes", function () {
     it("Getting error for 8.8.88", function (done) {
         var ip = '8.8.8.888';
         service.lookup(ip, function (err, result) {
-            console.log(result);
             try {
                 expect(err).not.equal(null);
                 done();

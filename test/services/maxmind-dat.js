@@ -2,12 +2,13 @@
 
 const path = require('path');
 const assert = require("chai").assert;
+const expect = require("chai").expect;
 
 var service = require(path.join(__dirname, "../../services/maxmind-dat"));
 
 describe('Testing maxmind-dat', function () {
     before(function () {
-        console.log('starting...');
+        
     });
     it("basic ip check, result is object", function () {
         service.lookup('8.8.8.8', function (err, result) {

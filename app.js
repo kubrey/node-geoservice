@@ -9,6 +9,7 @@ var net = require('net');
 var setFields = conf.get('geoObject');
 var setServices = conf.get('services');
 var setCommonOptions = conf.get('commonOptions');
+var debug = require('debug')(conf.get('projectName')+":app");
 
 /**
  *
@@ -91,8 +92,6 @@ GeoLocator.lookup = function (ip, callback) {
     var accumulatedResult = [], isDone = false;
     var sorted;
     var setupFields = JSON.parse(JSON.stringify(setFields));
-
-    console.log("----------start--------", ip, isDone, "---------------------");
 
     /**
      *
@@ -218,7 +217,7 @@ GeoLocator.lookup = function (ip, callback) {
     sorted = helper.sort(this.services, true, 'priority', 'asc');
 
     var queue = async.priorityQueue(function (task, callback) {
-        console.log("run ", task.title);
+        debug("run ", task.title);
         callback(task.ip, task.callback);
     }, 3);
 
@@ -232,31 +231,31 @@ GeoLocator.lookup = function (ip, callback) {
         var fn = require(servFile);
         var cb = function (err, result) {
             tries++;
-            console.log('finished and killed; ' + queue.running(),queue.started);
+           debug('finished and killed; ' + queue.running(),queue.started);
             //console.log("tries: " + tries, result.method, "left " + cbStack);
             cbStack--;
             if (!err) {
-                console.log(result.method + " found");
+                debug(result.method + " found");
                 if (cbStack < 0) {
                     //console.log("???????", result);
                 }
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
                     isDone = true;
-                    console.log('is idle; ' + queue.idle());
+                   debug('is idle; ' + queue.idle());
                     var res = handleAccumulated();
                     //queue.kill();
                     //queue.tasks = [];
                     callback(null, res);
                     //return;
                 }else {
-                    console.log('not completed');
+                    debug('not completed');
                 }
             } else {
-                console.log("err",err);
+                debug("err",err);
             }
             if (cbStack <= 0 && !isDone) {
-                console.log('nofound');
+                debug('nofound');
                 //all services have already run but not all required fields found ->
                 callback("Geo data was not found", null);
                 //queue.kill();
@@ -280,7 +279,7 @@ GeoLocator.lookup = function (ip, callback) {
     };
 
     queue.empty = function(){
-        console.log('all passed');
+        debugg('all passed');
     }
 
 };
