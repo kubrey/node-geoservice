@@ -3,10 +3,17 @@
 var mmdbreader = require('maxmind-db-reader');
 var path = require('path');
 var conf = require(path.join(__dirname, "../../configs"));
+var net = require('net');
 
 function lookup(ip, callback) {
+    if (!net.isIP(ip)) {
+        callback("Invalid IP", null);
+        return;
+    }
+    var db = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
     var start = new Date();
-    mmdbreader.open(conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile"), function (err, geoip) {
+    console.log(db);
+    mmdbreader.open(db, function (err, geoip) {
         // get geodata
         geoip.getGeoData(ip, function (err, geodata) {
             var extra = {requestTime: new Date() - start};

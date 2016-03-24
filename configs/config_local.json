@@ -49,6 +49,10 @@
       "type": "local",
       "active": true,
       "priority": 2,
+      "dbfile": [
+        "cidrdb",
+        "citiesdb"
+      ],
       "cidrdb": "/var/www/stuff/data/www/geolocator.loc/data/cidr_optim.txt",
       "citiesdb": "/var/www/stuff/data/www/geolocator.loc/data/cities.txt",
       "countries": [
@@ -83,5 +87,5 @@
     "checkLevel": 1,
     "checkField": "countryCode"
   },
-  "projectName":"geolocator"
+  "projectName": "geolocator"
 }

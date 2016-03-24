@@ -9,7 +9,7 @@ var net = require('net');
 var setFields = conf.get('geoObject');
 var setServices = conf.get('services');
 var setCommonOptions = conf.get('commonOptions');
-var debug = require('debug')(conf.get('projectName')+":app");
+var debug = require('debug')(conf.get('projectName') + ":app");
 
 /**
  *
@@ -30,10 +30,29 @@ function GeoLocator() {
 GeoLocator.init = function (options) {
     this.options = options;
     this.optionsError = null;
-    //console.log(conf.get(),"2132432");
+    this.files = {};
 
     this.commonOptions = JSON.parse(JSON.stringify(setCommonOptions));
     this.services = JSON.parse(JSON.stringify(setServices));
+    var self = this;
+
+    function findLocalFiles() {
+        for (var serv in self.services) {
+            if (self.services[serv]['type'] === 'local') {
+                self.files[serv] = {};
+                if (typeof self.services[serv]['dbfile'] === 'object') {
+                    for (var file in self.services[serv]['dbfile']) {
+                        self.files[serv][self.services[serv]['dbfile'][file]] = self.services[serv][self.services[serv]['dbfile'][file]];
+                    }
+                } else {
+                    self.files[serv]['file'] = self.services[serv]['dbfile'];
+                }
+            }
+        }
+    }
+
+    findLocalFiles();
+    console.log(this.files);
 };
 
 /**
@@ -48,6 +67,13 @@ GeoLocator.setOptions = function (options) {
             for (var iter in options.services) {
                 if (this.services[iter] !== undefined) {
                     this.services[iter]['active'] = options.services[iter];
+                }
+            }
+        }
+        if (options.files !== undefined && Object.keys(options.files).length) {
+            for (var servName in options.files) {
+                if (this.files[servName] !== undefined) {
+                    this.files[servName] = options.files[servName];
                 }
             }
         }
@@ -231,7 +257,7 @@ GeoLocator.lookup = function (ip, callback) {
         var fn = require(servFile);
         var cb = function (err, result) {
             tries++;
-           debug('finished and killed; ' + queue.running(),queue.started);
+            debug('finished and killed; ' + queue.running(), queue.started);
             //console.log("tries: " + tries, result.method, "left " + cbStack);
             cbStack--;
             if (!err) {
@@ -242,17 +268,17 @@ GeoLocator.lookup = function (ip, callback) {
                 accumulatedResult.push(result);
                 if (hasFoundRequested() && !isDone) {
                     isDone = true;
-                   debug('is idle; ' + queue.idle());
+                    debug('is idle; ' + queue.idle());
                     var res = handleAccumulated();
                     //queue.kill();
                     //queue.tasks = [];
                     callback(null, res);
                     //return;
-                }else {
+                } else {
                     debug('not completed');
                 }
             } else {
-                debug("err",err);
+                debug("err", err);
             }
             if (cbStack <= 0 && !isDone) {
                 debug('nofound');
@@ -278,7 +304,7 @@ GeoLocator.lookup = function (ip, callback) {
         }
     };
 
-    queue.empty = function(){
+    queue.empty = function () {
         debugg('all passed');
     }
 

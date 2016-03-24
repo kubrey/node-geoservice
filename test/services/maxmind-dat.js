@@ -1,26 +1,34 @@
 "use strict";
 
 const path = require('path');
-const assert = require("chai").assert;
 const expect = require("chai").expect;
-
 var service = require(path.join(__dirname, "../../services/maxmind-dat"));
 
 describe('Testing maxmind-dat', function () {
     before(function () {
-        
+
     });
-    it("basic ip check, result is object", function () {
+    it("basic ip check, result should be object, err = null", function (done) {
         service.lookup('8.8.8.8', function (err, result) {
-            //console.log(err, result);
-            assert.isObject(result, "Data found");
+            console.log(result);
+            try {
+                expect(result).be.a('object');
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
-    it("testing invalid ip", function () {
+    it("testing invalid ip", function (done) {
         service.lookup('888.8.8.8', function (err, result) {
-            //console.log(err, result);
-            assert.isNotNull(err, "Has some error");
+            try {
+                expect(err).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
         });
     });
+
 });
 
