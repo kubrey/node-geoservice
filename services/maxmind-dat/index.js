@@ -10,9 +10,6 @@ global.geodatadir = geodatadir;
 var net = require('net');
 var fs = require('fs');
 
-
-console.log(global.geodatadir);
-
 /**
  *
  * @param geoResult
@@ -52,7 +49,6 @@ function formalize(geoResult, extra) {
 
 module.exports = {
     lookup: function (ip, callback) {
-        console.log(ip);
         if (!net.isIP(ip)) {
             callback("Ip is invalid", null);
             return;

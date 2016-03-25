@@ -77,7 +77,7 @@ describe('Geolocator common function', function () {
             }
         });
     });
-    it("Setting invalid field name for valid ip - field should be ignored", function (done) {
+    it("Setting invalid field name for valid ip - field should be ignored without error", function (done) {
         geo.setOptions({
             fields: {
                 wrong: true
@@ -92,7 +92,7 @@ describe('Geolocator common function', function () {
             }
         });
     });
-    it("Setting invalid common option for valid ip - option should be ignored", function (done) {
+    it("Setting invalid common option for valid ip - option should be ignored and no errors occurred", function (done) {
         geo.setOptions({
             common: {
                 wrong: 23
@@ -101,6 +101,30 @@ describe('Geolocator common function', function () {
         geo.lookup('8.8.8.8', function (err, result) {
             try {
                 expect(err).be.null;
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+    it("Setting invalid path to maxmind mmdb", function (done) {
+        geo.setOptions({
+            files: {
+                "maxmind-mmdb": "wrong-path-of-mmdb-file"
+            },
+            services: {
+                'ip-api': false,
+                'maxmind-dat': false,
+                'maxmind-mmdb': true,
+                'ipinfo': false,
+                'freegeoip': false,
+                'geobytes': false,
+                'ipgeobase': false
+            }
+        });
+        geo.lookup('8.8.8.8', function (err, result) {
+            try {
+                expect(err).not.equal(null);
                 done();
             } catch (e) {
                 done(e);

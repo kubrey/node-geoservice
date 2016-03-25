@@ -12,6 +12,7 @@ function lookup(ip, callback) {
     }
     var db = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
     var start = new Date();
+    console.log(db);
     mmdbreader.open(db, function (err, geoip) {
         if(err){
             callback("Method error",null);

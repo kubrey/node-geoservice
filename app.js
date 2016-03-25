@@ -45,14 +45,26 @@ GeoLocator.init = function (options) {
                         self.files[serv][self.services[serv]['dbfile'][file]] = self.services[serv][self.services[serv]['dbfile'][file]];
                     }
                 } else {
-                    self.files[serv]['file'] = self.services[serv]['dbfile'];
+                    self.files[serv]['dbfile'] = self.services[serv]['dbfile'];
                 }
             }
         }
     }
 
     findLocalFiles();
-    console.log(this.files);
+    for (var servN in this.files) {
+        if (servN == 'maxmind-mmdb') {
+            //console.log(this.files[servN]);
+        }
+        for (var fileName in this.files[servN]) {
+            console.log(this.files[servN][fileName]);
+            conf.set('services:' + servN + ":" + fileName, this.files[servN][fileName]);
+            console.log('services:' + servN + ":" + fileName);
+        }
+
+    }
+    conf.set('services:maxmind-mmdb:' + servN + ":" + fileName, this.files[servN][fileName]);
+    //console.log(this.files);
 };
 
 /**
@@ -305,7 +317,7 @@ GeoLocator.lookup = function (ip, callback) {
     };
 
     queue.empty = function () {
-        debugg('all passed');
+        debug('all passed');
     }
 
 };
