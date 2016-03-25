@@ -2,7 +2,7 @@
 
 const path = require('path');
 const expect = require("chai").expect;
-var service = require(path.join(__dirname, "../../services/maxmind-dat"));
+const service = require(path.join(__dirname, "../../services/maxmind-dat"));
 
 describe('Testing maxmind-dat', function () {
     before(function () {

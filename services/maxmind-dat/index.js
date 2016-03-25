@@ -5,7 +5,7 @@ var conf = require(path.join(__dirname, "../../configs"));
 var geodatadir = conf.get('services:' + path.basename(path.dirname(__filename)) + ":directory");
 global.geodatadir = geodatadir;
 
-console.log( conf.get('services:maxmind-dat:dbfile'));
+//console.log( conf.get('services:maxmind-dat:dbfile'));
 
 var net = require('net');
 var fs = require('fs');

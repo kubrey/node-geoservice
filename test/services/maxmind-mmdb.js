@@ -11,7 +11,6 @@ describe('Testing maxmind-dat', function () {
     });
     it("basic ip check, result should be object, err = null", function (done) {
         service.lookup('8.8.8.8', function (err, result) {
-            console.log(result);
             try {
                 expect(result).be.a('object');
                 done();
@@ -30,8 +29,8 @@ describe('Testing maxmind-dat', function () {
             }
         });
     });
-    it("testing invalid ip", function (done) {
-        conf.set('services:maxmind-mmdb:dbfile', "/var/www/");//wrong path
+    it("testing invalid path", function (done) {
+        conf.set('services:maxmind-mmdb:dbfile', "/var/www1/");//wrong path
         service.lookup('8.8.8.8', function (err, result) {
             try {
                 expect(err).not.equal(null);

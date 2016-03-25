@@ -12,9 +12,11 @@ function lookup(ip, callback) {
     }
     var db = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
     var start = new Date();
-    console.log(db);
     mmdbreader.open(db, function (err, geoip) {
-        // get geodata
+        if(err){
+            callback("Method error",null);
+            return;
+        }
         geoip.getGeoData(ip, function (err, geodata) {
             var extra = {requestTime: new Date() - start};
             callback(err, formalize(geodata, extra));
