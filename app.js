@@ -52,19 +52,19 @@ GeoLocator.init = function (options) {
     }
 
     findLocalFiles();
-    for (var servN in this.files) {
+    for (var servN in options.files) {
         if (servN == 'maxmind-mmdb') {
-            //console.log(this.files[servN]);
+            //console.log(options.files[servN]);
         }
         for (var fileName in this.files[servN]) {
-            console.log(this.files[servN][fileName]);
-            conf.set('services:' + servN + ":" + fileName, this.files[servN][fileName]);
-            console.log('services:' + servN + ":" + fileName);
+            //console.log(this.files[servN][fileName]);
+            conf.set('services:' + servN + ":" + fileName, self.files[servN][fileName]);
+            //console.log('services:' + servN + ":" + fileName);
         }
 
     }
-    conf.set('services:maxmind-mmdb:' + servN + ":" + fileName, this.files[servN][fileName]);
-    //console.log(this.files);
+    //conf.set('services:' + servN + ":" + fileName, this.files[servN][fileName]);
+    //console.log(options.files);
 };
 
 /**
