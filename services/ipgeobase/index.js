@@ -130,12 +130,47 @@ function findDetailedData(found, callback) {
  * @param callback
  */
 function lookup(ip, callback) {
-    if (!net.isIPv4(ip)) {
-        callback("Only IPv4 allowed", null);
-        return;
-    }
+    validate(ip)
+        .then(status=> {
+            return helper.isFile(cidr)
+        })
+        .then((res)=> {
+            return helper.isFile(cities);
+        })
+        .then(res=> {
+            findCountry(ip, callback);
+        }).catch(err=> {
+            callback(err);
+        });
+}
 
-    findCountry(ip, callback);
+
+function validate(ip) {
+    return new Promise((resolve, reject) => {
+            if (!net.isIPv4(ip)) {
+                reject(ip + " is not valid IPv4");
+            } else {
+                resolve(true);
+            }
+        }
+    );
+}
+
+/**
+ *
+ * @param path
+ * @return {Promise}
+ */
+function isFileValid(path) {
+    return new Promise((resolve, reject)=> {
+        fs.stat(path, (err, stats)=> {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(stats);
+            }
+        });
+    })
 }
 
 

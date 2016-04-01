@@ -62,7 +62,36 @@ function ip2long(ip) {
     return (ipl >>> 0);
 }
 
+/**
+ *
+ * @param {String} path
+ * @return {Promise}
+ */
+function isFile(path) {
+    return promisize(require('fs').stat, path);
+}
+
+/**
+ *
+ * @param {Function} fn
+ * @param {Mixed} arg
+ * @return {Promise}
+ */
+function promisize(fn, arg) {
+    return new Promise(function (resolve, reject) {
+        fn(arg, (err, result)=> {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
 module.exports = {
     sort: sortProperties,
-    ip2long: ip2long
+    ip2long: ip2long,
+    isFile: isFile,
+    promisize: promisize
 };
