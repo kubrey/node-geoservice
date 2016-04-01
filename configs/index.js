@@ -3,6 +3,7 @@
 var nconf = require('nconf'),
     path = require('path');
 
+var tmpFile = "tmpconf.json";
 var env = process.argv[2] ? process.argv[2] : 'production';
 
 var confFile = env === 'development' ? 'config_local.json' : 'config.json';

@@ -52,19 +52,6 @@ GeoLocator.init = function (options) {
     }
 
     findLocalFiles();
-    for (var servN in options.files) {
-        if (servN == 'maxmind-mmdb') {
-            //console.log(options.files[servN]);
-        }
-        for (var fileName in this.files[servN]) {
-            //console.log(this.files[servN][fileName]);
-            conf.set('services:' + servN + ":" + fileName, self.files[servN][fileName]);
-            //console.log('services:' + servN + ":" + fileName);
-        }
-
-    }
-    //conf.set('services:' + servN + ":" + fileName, this.files[servN][fileName]);
-    //console.log(options.files);
 };
 
 /**
@@ -267,6 +254,8 @@ GeoLocator.lookup = function (ip, callback) {
         var servFile = path.join(__dirname, "services/" + sorted[service][0]);
         //console.log(servFile);
         var fn = require(servFile);
+        //set local paths if necessary
+        self.setPath(fn, sorted[service][0]);
         var cb = function (err, result) {
             tries++;
             debug('finished and killed; ' + queue.running(), queue.started);
@@ -334,6 +323,33 @@ GeoLocator.cleanServices = function () {
     }
 
     return this;
+};
+
+GeoLocator.setPath = function (service, servName) {
+    if (!this.options) {
+        return this;
+    }
+    if (!this.options.files) {
+        return this;
+    }
+    if (!this.options.files[servName]) {
+        return this;
+    }
+    if (conf.get('services:' + servName + ":type") !== 'local') {
+        return this;
+    }
+    var params = conf.get('services:' + servName + ":dbfile");
+    if (typeof params === 'object') {
+        for (var iter in params) {
+            if (this.options.files[servName][params[iter]]) {
+                service.setParam(params[iter], this.options.files[servName][params[iter]]);
+            }
+
+        }
+    } else {
+        service.setParam("dbfile", this.options.files[servName]);
+    }
+
 };
 
 

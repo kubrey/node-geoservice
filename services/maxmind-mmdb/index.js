@@ -4,18 +4,18 @@ var mmdbreader = require('maxmind-db-reader');
 var path = require('path');
 var conf = require(path.join(__dirname, "../../configs"));
 var net = require('net');
+var db = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
 
 function lookup(ip, callback) {
     if (!net.isIP(ip)) {
         callback("Invalid IP", null);
         return;
     }
-    var db = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
+
     var start = new Date();
-    console.log(db);
     mmdbreader.open(db, function (err, geoip) {
-        if(err){
-            callback("Method error",null);
+        if (err) {
+            callback("Method error", null);
             return;
         }
         geoip.getGeoData(ip, function (err, geodata) {
@@ -56,7 +56,18 @@ function formalize(geoResult, extra) {
 
 
 module.exports = {
-    lookup: lookup
+    lookup: lookup,
+    setParam: function (key, pathVal) {
+        var possibleKeys = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
+        if (typeof possibleKeys === 'object') {
+            if (possibleKeys.indexOf(key) !== -1) {
+                //unused for this method, written for unification
+            }
+        } else {
+            db = pathVal;
+        }
+
+    }
 };
 
 

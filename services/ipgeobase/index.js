@@ -3,7 +3,7 @@
 var path = require("path");
 var conf = require(path.join(__dirname, "../../configs"));
 var helper = require(path.join(__dirname, "../../helpers"));
-var cird = conf.get('services:' + path.basename(path.dirname(__filename)) + ":cidrdb");
+var cidr = conf.get('services:' + path.basename(path.dirname(__filename)) + ":cidrdb");
 var cities = conf.get('services:' + path.basename(path.dirname(__filename)) + ":citiesdb");
 
 var fs = require('fs'),
@@ -47,7 +47,7 @@ function formalize(geoResult, extra) {
  * @param callback
  */
 function findCountry(ip, callback) {
-    var instream = fs.createReadStream(cird);
+    var instream = fs.createReadStream(cidr);
     var outstream = new stream;
     outstream.readable = true;
     outstream.writable = true;
@@ -73,7 +73,6 @@ function findCountry(ip, callback) {
                     countryCode: lineRow[3],
                     method: path.basename(path.dirname(__filename))
                 }, extra));
-
 
 
             } else {
@@ -141,5 +140,17 @@ function lookup(ip, callback) {
 
 
 module.exports = {
-    lookup: lookup
+    lookup: lookup,
+    setParam: function (key, pathVal) {
+        var possibleKeys = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
+        if (typeof possibleKeys === 'object') {
+            if (possibleKeys.indexOf(key) !== -1) {
+                if (key === 'cidrdb') {
+                    cidr = pathVal;
+                } else if (key === 'citiesdb') {
+                    cities = pathVal;
+                }
+            }
+        }
+    }
 };

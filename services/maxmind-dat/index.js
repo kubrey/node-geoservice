@@ -53,7 +53,7 @@ module.exports = {
             callback("Ip is invalid", null);
             return;
         }
-        fs.exists(geodatadir, function (status) {
+        fs.exists(global.geodatadir, function (status) {
             if (!status) {
                 callback("no such file or directory: " + geodatadir, null);
                 return;
@@ -69,5 +69,16 @@ module.exports = {
             callback(null, formalize(result, extra));
         });
 
+    },
+    setParam: function (key, pathVal) {
+        var possibleKeys = conf.get('services:' + path.basename(path.dirname(__filename)) + ":dbfile");
+        if (typeof possibleKeys === 'object') {
+            if (possibleKeys.indexOf(key) !== -1) {
+
+                global.geodatadir = pathVal;
+            }
+        } else {
+            global.geodatadir = pathVal;
+        }
     }
 };
