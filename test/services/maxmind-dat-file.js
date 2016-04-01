@@ -3,9 +3,11 @@
 const path = require('path');
 const expect = require("chai").expect;
 var conf = require(path.join(__dirname, "../../configs"));
-conf.set('services:maxmind-dat:directory', "/var/www/1");//wrong path
+//conf.set('services:maxmind-dat:directory', "/var/www/1");//wrong path
 
 var service = require(path.join(__dirname, "../../services/maxmind-dat"));
+
+service.setParam('directory','wrong-path');
 
 describe('Testing maxmind-dat dbfile', function () {
     before(function () {

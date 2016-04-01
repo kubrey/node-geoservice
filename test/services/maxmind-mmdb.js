@@ -5,6 +5,8 @@ const expect = require("chai").expect;
 var service = require(path.join(__dirname, "../../services/maxmind-mmdb"));
 var conf = require(path.join(__dirname, "../../configs"));
 
+
+
 describe('Testing maxmind-dat', function () {
     before(function () {
 
@@ -30,7 +32,7 @@ describe('Testing maxmind-dat', function () {
         });
     });
     it("testing invalid path", function (done) {
-        conf.set('services:maxmind-mmdb:dbfile', "/var/www1/");//wrong path
+        service.setParam('dbfile','srong-path');
         service.lookup('8.8.8.8', function (err, result) {
             try {
                 expect(err).not.equal(null);
