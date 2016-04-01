@@ -65,3 +65,20 @@ Including:
    ```
 
    `options.common.checkLevel` contains number of services which should return equal value of `options.common.checkField`
+
+   Methods `maxmind-dat`, `maxmind-mmdb` and `ipgeobase` use local files to get information by ip. Other methods use online services.
+
+   To specify path to these files you have to use the following code
+
+   ```
+   options.files = {};
+   options.files['maxmind-mmdb'] = '/path/to/db/file.mmdb';
+   options.files['maxmind-dat']['directory'] = '/path/to/directory/containing/dat-files/';
+   ```
+
+   Files for ipgeobase are already in package. If you want to use your own files(maybe newer):
+
+   ```
+   options.files['ipgeobase']['cidrdb'] = '/path/to/countries-db-file/cidr.txt';
+   options.files['ipgeobase']['citiesdb'] = '/path/to/cities-db-file/citiesdb.txt';
+   ```
