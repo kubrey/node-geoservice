@@ -6,6 +6,10 @@
   "scripts": {
     "mocha-node-test": "mocha test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kubrey/geolocator.git"
+  },
   "keywords": [
     "geo",
     "location",
