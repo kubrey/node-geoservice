@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/kubrey/geolocator.git"
+    "url": "git://github.com/kubrey/node-geoservice.git"
   },
   "keywords": [
     "geo",
