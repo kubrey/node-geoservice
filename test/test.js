@@ -2,7 +2,7 @@
 
 var assert = require("chai").assert;
 var expect = require("chai").expect;
-var geo = require('../app');
+var geo = require('../lib/geolocator');
 
 //
 //

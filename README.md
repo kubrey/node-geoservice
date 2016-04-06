@@ -1,4 +1,4 @@
-Geolocator is a library covering multiple free geoservices
+Geolocator is a library covering multiple free geoservices and modules
 ==========================================================
 
 Including:

@@ -7,7 +7,7 @@ options.common = [];
 options.common.checkLevel = 4;
 options.common.checkField = 'city';
 //options.services['ip-api'] = false;
-var geo = require("./app");
+var geo = require("./lib/geolocator");
 
 //geo.setOptions(options);
 
