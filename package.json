@@ -1,8 +1,8 @@
 {
-  "name": "geolocator.loc",
-  "version": "1.0.0",
+  "name": "geosearch",
+  "version": "0.1.5",
   "description": "Geo location service using multiple free independent services and modules",
-  "main": "lib/geolocator.js",
+  "main": "lib/geosearch.js",
   "scripts": {
     "mocha-node-test": "mocha test"
   },
@@ -11,7 +11,7 @@
     "location",
     "free",
     "ip",
-    "locator",
+    "searcher",
     "geoip"
   ],
   "author": "Sergey Kubrey",
