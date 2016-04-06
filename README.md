@@ -82,3 +82,9 @@ Including:
    options.files['ipgeobase']['cidrdb'] = '/path/to/countries-db-file/cidr.txt';
    options.files['ipgeobase']['citiesdb'] = '/path/to/cities-db-file/citiesdb.txt';
    ```
+
+   To reset options:
+
+   ```
+   geo.resetOptions();
+   ```
