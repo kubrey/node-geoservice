@@ -1,4 +1,4 @@
-Geolocator is a library covering multiple free geoservices and modules
+Geosearch is a library covering multiple free geoservices and modules
 ==========================================================
 
 Including:
@@ -13,7 +13,7 @@ Including:
  ### Usage
 
  ```
-  var geo = require("geolocator");
+  var geo = require("geosearch");
   geo.lookup('8.8.8.8', function (err, result) {
       console.log(err,result);
    });
@@ -37,7 +37,7 @@ Including:
 
   ### Configuration
 
-  Geolocator has flexible configuration options.
+  Geosearch has flexible configuration options.
 
   By default only `countryCode` property is required. To set required fields
 
@@ -56,7 +56,7 @@ Including:
    options.services['ipinfo'] = 10;
    ```
 
-   You can tell geolocator to doublecheck found result by one field:
+   You can tell geosearch to doublecheck found result by one field:
 
    ```
    options.common = {};
