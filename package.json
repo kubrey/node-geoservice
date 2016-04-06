@@ -1,6 +1,6 @@
 {
   "name": "geosearch",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Geo location service using multiple free independent services and modules",
   "main": "lib/geosearch.js",
   "scripts": {
@@ -20,13 +20,15 @@
   ],
   "author": "Sergey Kubrey",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "async": "^1.5.2",
-    "chai": "^3.5.0",
-    "debug": "^2.2.0",
     "geoip-lite": "^1.1.6",
     "maxmind-db-reader": "^0.2.1",
-    "nconf": "^0.8.4",
+    "nconf": "^0.8.4"
+  },
+  "devDependencies":{
+    "chai": "^3.5.0",
+    "debug": "^2.2.0",
     "nock": "^7.5.0"
   }
 }
