@@ -40,6 +40,7 @@ describe('Geolocator common function', function () {
             }
         });
     });
+
     it("getting error because no methods are allowed", function (done) {
         geo.setOptions({
             services: {
@@ -156,5 +157,23 @@ describe('Geolocator common function', function () {
             }
         });
     });
+
+    it("Multiple runs test + resetting options", function (done) {
+        geo.resetOptions();
+        geo.lookup('8.8.8.8', function (err, result) {
+            if(result){
+                geo.lookup('18.18.18.18', function (err, result) {
+                    try {
+                        expect(result).not.equal(null);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                });
+            }
+        });
+    });
+
+
 
 });
