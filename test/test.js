@@ -93,6 +93,31 @@ describe('Geolocator common function', function () {
             }
         });
     });
+    it("Setting all fields as required for a difficult ip - response must be empty", function (done) {
+        geo.resetOptions();
+        this.timeout(5000);
+        geo.setOptions({
+            fields: {
+                "city": true,
+                "countryCode": true,
+                "countryName": true,
+                "latitude": true,
+                "longitude": true,
+                "isp": true,
+                "zip": true,
+                "regionName": true,
+                "regionCode": true
+            }
+        });
+        geo.lookup('10.10.10.10', function (err, result) {
+            try {
+                expect(err).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
     it("Setting invalid common option for valid ip - option should be ignored and no errors occurred", function (done) {
         geo.setOptions({
             common: {

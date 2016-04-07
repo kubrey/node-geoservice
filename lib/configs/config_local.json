@@ -85,7 +85,8 @@
   },
   "commonOptions": {
     "checkLevel": 1,
-    "checkField": "countryCode"
+    "checkField": "countryCode",
+    "timeout": 3000
   },
-  "projectName": "geolocator"
+  "projectName": "GeoSearch"
 }
