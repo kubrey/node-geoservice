@@ -40,6 +40,10 @@ Including:
   - usedMethods (methods used to find requested data and search time fot each of them)
   - requestTime (whole search time, ms)
 
+  Answer example:
+
+  ![Answer example](http://storage4.static.itmages.com/i/16/0407/h_1460020181_4580986_ca8b3455f8.jpeg)
+
   ### Configuration
 
   Geosearch has flexible configuration options.

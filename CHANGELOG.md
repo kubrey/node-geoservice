@@ -1,3 +1,9 @@
+# v0.1.12
+
+- Examples added in `examples` folder
+  To run: `node examples/allrequired.js 8.8.8.8`
+
+
 # v0.1.11
 
 - Services timeout is set to 3000 ms and moved to config
