@@ -1,10 +1,10 @@
 "use strict";
 
 const path = require('path');
-const conf = require(path.join(__dirname, "../../configs"));
+const conf = require(path.join(__dirname, "../../lib/configs"));
 const expect = require("chai").expect;
 
-var service = require(path.join(__dirname, "../../services/ip-api"));
+var service = require(path.join(__dirname, "../../lib/services/ip-api"));
 
 console.log(conf.get('services:ip-api:requestOptions:host'));
 

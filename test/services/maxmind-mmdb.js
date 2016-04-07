@@ -2,8 +2,8 @@
 
 const path = require('path');
 const expect = require("chai").expect;
-var service = require(path.join(__dirname, "../../services/maxmind-mmdb"));
-var conf = require(path.join(__dirname, "../../configs"));
+var service = require(path.join(__dirname, "../../lib/services/maxmind-mmdb"));
+var conf = require(path.join(__dirname, "../../lib/configs"));
 
 
 

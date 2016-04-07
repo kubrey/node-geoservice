@@ -1,10 +1,10 @@
 "use strict";
 
 const path = require('path');
-const conf = require(path.join(__dirname, "../../configs"));
+const conf = require(path.join(__dirname, "../../lib/configs"));
 const expect = require("chai").expect;
 
-var service = require(path.join(__dirname, "../../services/freegeoip"));
+var service = require(path.join(__dirname, "../../lib/services/freegeoip"));
 
 describe("Testing freegeoip", function () {
     before(function () {

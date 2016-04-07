@@ -3,8 +3,9 @@
 const path = require('path');
 const assert = require("chai").assert;
 const expect = require("chai").expect;
+var debug = require('debug');
 
-var service = require(path.join(__dirname, "../../services/ipgeobase"));
+var service = require(path.join(__dirname, "../../lib/services/ipgeobase"));
 
 describe("Testing ipgeobase", function () {
     before(function () {
@@ -13,6 +14,7 @@ describe("Testing ipgeobase", function () {
     it("Valid ip should get object as a result", function (done) {
         var ip = '8.8.8.8';
         service.lookup(ip, function (err, result) {
+            console.log(err,result);
             try {
                 expect(result).be.a('object');
                 done();
@@ -49,6 +51,19 @@ describe("Testing ipgeobase", function () {
         service.lookup(ip, function (err, result) {
             try {
                 expect(err).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+
+    it("Valid file should get result", function (done) {
+        service.setParam('citiesdb', '/var/www/stuff/data/www/geolocator.loc/lib/data/cities.txt');
+        var ip = '8.8.8.8';
+        service.lookup(ip, function (err, result) {
+            try {
+                expect(result).be.a('object');
                 done();
             } catch (e) {
                 done(e);

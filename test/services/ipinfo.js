@@ -1,10 +1,10 @@
 "use strict";
 
 const path = require('path');
-const conf = require(path.join(__dirname, "../../configs"));
+const conf = require(path.join(__dirname, "../../lib/configs"));
 const expect = require("chai").expect;
 
-var service = require(path.join(__dirname, "../../services/ipinfo"));
+var service = require(path.join(__dirname, "../../lib/services/ipinfo"));
 
 describe("Testing ipinfo", function () {
     before(function () {

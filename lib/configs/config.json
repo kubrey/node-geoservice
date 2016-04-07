@@ -54,8 +54,8 @@
         "cidrdb",
         "citiesdb"
       ],
-      "cidrdb": "/var/www/stuff/data/www/geolocator.loc/data/cidr_optim.txt",
-      "citiesdb": "/var/www/stuff/data/www/geolocator.loc/data/cities.txt",
+      "cidrdb": "data/cidr_optim.txt",
+      "citiesdb": "data/cities.txt",
       "countries": [
         "ua",
         "ru"

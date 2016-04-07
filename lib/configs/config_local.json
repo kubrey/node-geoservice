@@ -2,7 +2,7 @@
   "services": {
     "maxmind-dat": {
       "type": "local",
-      "dbfile": "/var12/www/GeoLiteCity.dat",
+      "dbfile": "/var/www/GeoLiteCity.dat",
       "active": true,
       "priority": 1
     },
@@ -53,8 +53,8 @@
         "cidrdb",
         "citiesdb"
       ],
-      "cidrdb": "/var/www/stuff/data/www/geolocator.loc/data/cidr_optim.txt",
-      "citiesdb": "/var/www/stuff/data/www/geolocator.loc/data/cities.txt",
+      "cidrdb": "data/cidr_optim.txt",
+      "citiesdb": "data/cities.txt",
       "countries": [
         "ua",
         "ru"
