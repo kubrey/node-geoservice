@@ -88,5 +88,5 @@
     "checkLevel": 1,
     "checkField": "countryCode"
   },
-  "projectName": "geolocator"
+  "projectName": "GeoSearch"
 }

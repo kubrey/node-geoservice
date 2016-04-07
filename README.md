@@ -10,6 +10,11 @@ Including:
  - Freegeoip.net `freegeoip`
  - Geobytes.com `geobytes`
 
+ ### Installation
+
+ `npm i geosearch`
+
+
  ### Usage
 
  ```

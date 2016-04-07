@@ -3,7 +3,6 @@
 const path = require('path');
 const assert = require("chai").assert;
 const expect = require("chai").expect;
-var debug = require('debug');
 
 var service = require(path.join(__dirname, "../../lib/services/ipgeobase"));
 
