@@ -42,7 +42,7 @@ Including:
 
   Answer example:
 
-  ![Answer example](http://storage4.static.itmages.com/i/16/0407/h_1460020181_4580986_ca8b3455f8.jpeg)
+  ![Answer example](http://storage6.static.itmages.com/i/16/0407/h_1460030897_8656083_bfc7d8c1c6.jpeg)
 
   ### Configuration
 
