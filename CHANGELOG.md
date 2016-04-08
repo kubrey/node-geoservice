@@ -1,6 +1,6 @@
 # v0.1.13
 
-- IPv6 is allowed for lookup. Currently supporting methods are `maxmind`(both) and `ipapi`
+- IPv6 is allowed for lookup. Currently supporting methods are `maxmind`(both) and `ipapi` (#2)
 
 
 # v0.1.12
