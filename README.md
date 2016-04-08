@@ -48,7 +48,7 @@ Including:
 
   Geosearch has flexible configuration options.
 
-  By default only `countryCode` property is required. To set required fields
+  By default only `countryCode` property is required. To set `city` as required field:
 
   ```
   var options = {};
@@ -56,6 +56,10 @@ Including:
   options.fields.city = true;
   geo.setOptions(options);
    ```
+
+   If first completed method's result does not contain all required fields,the resulting object will accumulate all found fields from methods
+    until all required data will have been gathered.
+
 
    Also you can manage services. This example disables `ip-api` service and set `ipinfo` priority level to 10(less level value - higher priority)
 
@@ -65,7 +69,9 @@ Including:
    options.services['ipinfo'] = 10;
    ```
 
-   You can tell geosearch to doublecheck found result by one field:
+   Methods with local geo-databases are the fastest, so they have better priority by default.
+
+   You can tell GeoSearch to double check found result by one field:
 
    ```
    options.common = {};
@@ -73,7 +79,8 @@ Including:
    options.common.checkLevel = 2;
    ```
 
-   `options.common.checkLevel` contains number of services which should return equal value of `options.common.checkField`
+   `options.common.checkLevel` contains number of services which should return equal value of `options.common.checkField`.
+   In this example callback with result will be executed only after at least two methods return same `countryCode`.
 
    Methods `maxmind-dat`, `maxmind-mmdb` and `ipgeobase` use local files to get information by ip. Other methods use online services.
 
@@ -85,7 +92,7 @@ Including:
    options.files['maxmind-dat']['directory'] = '/path/to/directory/containing/dat-files/';
    ```
 
-   Files for ipgeobase are already in package. If you want to use your own files(maybe newer):
+   Files for `ipgeobase` are already in package. If you want to use your own files(maybe newer):
 
    ```
    options.files['ipgeobase']['cidrdb'] = '/path/to/countries-db-file/cidr.txt';
@@ -97,3 +104,10 @@ Including:
    ```
    geo.resetOptions();
    ```
+
+   Reset can be useful if you want to run several `geo.lookup`  with different options.
+
+
+   ### Other realizations
+
+   [PHP version](https://bitbucket.org/kubrey/geoservice)
