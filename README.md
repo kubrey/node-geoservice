@@ -46,7 +46,7 @@ Including:
 
   ### Configuration
 
-  Geosearch has flexible configuration options.
+  GeoSearch has flexible configuration options.
 
   By default only `countryCode` property is required. To set `city` as required field:
 
@@ -70,6 +70,10 @@ Including:
    ```
 
    Methods with local geo-databases are the fastest, so they have better priority by default.
+   Also keep in mind that some online services have limitations for amount of requests ion a period of time.
+   `ipinfo` has daily limit - 1000 requests;
+   `geobytes` - 16000 requests per hour;
+   So it may not be the best option to set `ipinfo` top priority if you have thousands of daily ip look-ups
 
    You can tell GeoSearch to double check found result by one field:
 

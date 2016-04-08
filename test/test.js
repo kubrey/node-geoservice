@@ -4,6 +4,7 @@ var assert = require("chai").assert;
 var expect = require("chai").expect;
 var geo = require('../lib/geosearch');
 
+var ipv6 = '2601:9:7680:363:75df:f491:6f85:352f';
 //
 //
 describe('Geolocator common function', function () {
@@ -31,6 +32,7 @@ describe('Geolocator common function', function () {
         });
     });
     it("getting error because of invalid ip", function (done) {
+        this.timeout(5000);
         geo.lookup('8.8.8.888', function (err, result) {
             try {
                 expect(err).not.equal(null);
@@ -186,7 +188,7 @@ describe('Geolocator common function', function () {
     it("Multiple runs test + resetting options", function (done) {
         geo.resetOptions();
         geo.lookup('8.8.8.8', function (err, result) {
-            if(result){
+            if (result) {
                 geo.lookup('18.18.18.18', function (err, result) {
                     try {
                         expect(result).not.equal(null);
@@ -199,6 +201,35 @@ describe('Geolocator common function', function () {
         });
     });
 
+    it("Test Ipv6  + should return smth", function (done) {
+        geo.lookup(ipv6, function (err, result) {
+            try {
+                expect(result).is.a('object');
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
+
+    it("Test Ipv6 with disabled methods supporting ipv6 - should return error", function (done) {
+        this.timeout(15000);
+        geo.setOptions({
+            services: {
+                'maxmind-dat': false,
+                'maxmind-mmdb': false,
+                'ipinfo': false
+            }
+        });
+        geo.lookup(ipv6, function (err, result) {
+            try {
+                expect(err).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
 
 
 });

@@ -6,8 +6,8 @@ var options = {
     services: {
         'maxmind-dat': false,
         'maxmind-mmdb': false,
-        'ip-api': 1,
-        'ipgeobase': false
+        'ipgeobase': false,
+        'ipinfo':false
     }
 };
 geo.setOptions(options);
