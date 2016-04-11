@@ -6,7 +6,7 @@ const expect = require("chai").expect;
 
 var service = require(path.join(__dirname, "../../lib/services/ip-api"));
 
-console.log(conf.get('services:ip-api:requestOptions:host'));
+console.log(conf.getVal('services:ip-api:requestOptions:host'));
 
 describe("Testing ip-api", function () {
     before(function () {
@@ -14,7 +14,7 @@ describe("Testing ip-api", function () {
     });
     it("Getting correct data for 8.8.8.8", function (done) {
         var ip = '8.8.8.8';
-        var path = conf.get('services:ip-api:requestOptions:path').replace('{{ip}}', ip);
+        var path = conf.getVal('services:ip-api:requestOptions:path').replace('{{ip}}', ip);
 
         service.lookup(ip, function (err, result) {
             try {
