@@ -1,3 +1,12 @@
+# v0.2.0
+
+- Allowing value of `service.active` as not boolean (#3)
+- Enabling `maxmind-mmdb` by default, priority = 30
+
+Bug fixed:
+- Updating `maxmind-mmdb` result parsing seting correct city and countryName/countryCode data;
+
+
 # v0.1.13
 
 - IPv6 is allowed for lookup. Currently supporting methods are `maxmind`(both) and `ipapi` (#2)
