@@ -9,7 +9,7 @@
     "maxmind-mmdb": {
       "type": "local",
       "dbfile": "/var/www/GeoLite2-City.mmdb",
-      "active": false,
+      "active": true,
       "priority": 30
     },
     "ipinfo": {
