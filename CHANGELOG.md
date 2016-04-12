@@ -1,3 +1,9 @@
+# v0.2.2
+
+- Handling `maxmind-mmdb`  exceptions on ip like `::ffff:8.8.8.8`
+- Setting previous `nconf` source path while getting value from config
+
+
 # v0.2.1
 
 Bug fixed:
