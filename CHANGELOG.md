@@ -1,3 +1,11 @@
+# v0.2.3
+
+- Handling `maxmind-dat` exceptions on valid directory path but not containing *.dat files (#5)
+
+Bugs fixed:
+- Correct setup of `maxmind-dat` options
+
+
 # v0.2.2
 
 - Handling `maxmind-mmdb`  exceptions on ip like `::ffff:8.8.8.8`

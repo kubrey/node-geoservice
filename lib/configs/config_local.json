@@ -2,20 +2,24 @@
   "services": {
     "maxmind-dat": {
       "type": "local",
-      "dbfile": "/var/www/GeoLiteCity.dat",
+      "dbfile": ["directory"],
+      "directory":"/var/www/",
       "active": true,
-      "priority": 1
+      "priority": 1,
+      "v6":true
     },
     "maxmind-mmdb": {
       "type": "local",
       "dbfile": "/var/www/GeoLite2-City.mmdb",
       "active": true,
-      "priority": 30
+      "priority": 30,
+      "v6":true
     },
     "ipinfo": {
       "type": "service",
       "active": true,
       "priority": 25,
+      "v6":true,
       "requestOptions": {
         "host": "ipinfo.io",
         "method": "GET",
@@ -49,6 +53,7 @@
       "type": "local",
       "active": true,
       "priority": 2,
+      "v6":false,
       "dbfile": [
         "cidrdb",
         "citiesdb"

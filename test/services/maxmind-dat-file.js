@@ -24,6 +24,18 @@ describe('Testing maxmind-dat dbfile', function () {
             }
         });
     });
+
+    it("Valid path but not containing dat files - error", function (done) {
+        service.setParam('directory','/var');
+        service.lookup('8.8.8.8', function (err, result) {
+            try {
+                expect(err).not.equal(null);
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
 });
 
 
