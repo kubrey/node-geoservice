@@ -111,6 +111,13 @@ Including:
 
    Reset can be useful if you want to run several `geo.lookup`  with different options.
 
+   ### Run Tests
+
+   Tests are written in `mocha` and `chai`
+
+   ```
+   $ npm test
+   ```
 
    ### Other realizations
 

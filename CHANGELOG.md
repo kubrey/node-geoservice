@@ -1,3 +1,9 @@
+# v0.2.1
+
+Bug fixed:
+- `Nconf.get` method is encapsulated to the `nconf.getVal` in order to prevent overwriting `nconf` source(#4)
+
+
 # v0.2.0
 
 - Allowing value of `service.active` as not boolean (#3)
