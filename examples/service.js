@@ -4,8 +4,8 @@ var geo = require('../lib/geosearch');
 var ip = process.argv[2] || '8.8.8.8';
 var options = {
     services: {
-        'maxmind-dat': 1,
-        'maxmind-mmdb': false,
+        'maxmind-dat': false,
+        'maxmind-mmdb': 1,
         'ipgeobase': false,
         'geobytes': false,
         'freegeoip': false,

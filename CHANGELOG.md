@@ -1,3 +1,8 @@
+# v0.2.4
+
+- Setting default `maxmind-dat` and `maxmind-mmdb` paths to required modules' internal path (#7)
+
+
 # v0.2.3
 
 - Handling `maxmind-dat` exceptions on valid directory path but not containing *.dat files (#5)
