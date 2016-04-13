@@ -4,7 +4,7 @@
   "description": "Geo location service using multiple free independent services and modules",
   "main": "lib/geosearch.js",
   "scripts": {
-    "test":"mocha test"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
     "maxmind-db-reader": "^0.2.1",
     "nconf": "^0.8.4"
   },
-  "devDependencies":{
+  "devDependencies": {
     "chai": "^3.5.0",
     "debug": "^2.2.0",
     "nock": "^7.5.0"
