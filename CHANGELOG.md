@@ -1,3 +1,8 @@
+# v2.0.5
+
+- Disabling `freegeoip` by default
+
+
 # v0.2.4
 
 - Setting default `maxmind-dat` and `maxmind-mmdb` paths to required modules' internal path (#7)

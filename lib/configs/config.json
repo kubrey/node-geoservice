@@ -2,24 +2,26 @@
   "services": {
     "maxmind-dat": {
       "type": "local",
-      "dbfile": ["directory"],
-      "directory":"node_modules/geoip-lite/data/",
+      "dbfile": [
+        "directory"
+      ],
+      "directory": "node_modules/geoip-lite/data/",
       "active": true,
       "priority": 1,
-      "v6":true
+      "v6": true
     },
     "maxmind-mmdb": {
       "type": "local",
       "dbfile": "node_modules/maxmind-db-reader/test/data/GeoLite2-City.mmdb",
       "active": true,
       "priority": 30,
-      "v6":true
+      "v6": true
     },
     "ipinfo": {
       "type": "service",
       "active": true,
       "priority": 25,
-      "v6":true,
+      "v6": true,
       "requestOptions": {
         "host": "ipinfo.io",
         "method": "GET",
@@ -29,9 +31,9 @@
     },
     "freegeoip": {
       "type": "service",
-      "active": true,
+      "active": false,
       "priority": 20,
-      "v6":false,
+      "v6": false,
       "requestOptions": {
         "host": "freegeoip.net",
         "port": 80,
@@ -43,7 +45,7 @@
       "type": "service",
       "active": true,
       "priority": 10,
-      "v6":false,
+      "v6": false,
       "requestOptions": {
         "host": "ip-api.com",
         "path": "/json/{{ip}}",
@@ -55,7 +57,7 @@
       "type": "local",
       "active": true,
       "priority": 2,
-      "v6":false,
+      "v6": false,
       "dbfile": [
         "cidrdb",
         "citiesdb"
@@ -71,7 +73,7 @@
       "type": "service",
       "active": true,
       "priority": 50,
-      "v6":false,
+      "v6": false,
       "requestOptions": {
         "host": "getcitydetails.geobytes.com",
         "path": "/GetCityDetails?fqcn={{ip}}",
@@ -94,7 +96,7 @@
   "commonOptions": {
     "checkLevel": 1,
     "checkField": "countryCode",
-    "timeout":3000
+    "timeout": 3000
   },
   "projectName": "GeoSearch"
 }
