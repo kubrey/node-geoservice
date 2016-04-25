@@ -10,6 +10,10 @@ Including:
  - Freegeoip.net `freegeoip`
  - Geobytes.com `geobytes`
 
+ This module is useful when you need to detect location by ip address with high accuracy.
+ If you have ip addresses mainly from Russia and Ukraine - good options is to set `Ipgeobase` as first priority.
+
+
  ### Installation
 
  `npm i geosearch`

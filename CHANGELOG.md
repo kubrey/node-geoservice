@@ -1,4 +1,9 @@
-# v2.0.5
+# v0.2.6
+
+- Updating readme
+
+
+# v0.2.5
 
 - Disabling `freegeoip` by default
 
