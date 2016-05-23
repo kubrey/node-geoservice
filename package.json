@@ -1,6 +1,6 @@
 {
   "name": "geosearch",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Geo location service using multiple free independent services and modules",
   "main": "lib/geosearch.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "searcher",
     "geoip"
   ],
-  "author": "Sergey Kubrey <kubrey@gmail.com>",
+  "author": "Sergey Kubrey <kubrey.work@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "async": "^1.5.2",

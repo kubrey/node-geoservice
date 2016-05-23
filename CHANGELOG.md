@@ -1,7 +1,10 @@
+# v0.2.7
+
+ - Setting default encoding to reading stream of `ipgeobase`
+
 # v0.2.6
 
 - Updating readme
-
 
 # v0.2.5
 
