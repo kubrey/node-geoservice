@@ -1,3 +1,8 @@
+# v0.2.8
+
+ - PHP library url is updated
+
+
 # v0.2.7
 
  - Setting default encoding to reading stream of `ipgeobase`
