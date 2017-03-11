@@ -68,5 +68,17 @@ describe("Testing ipgeobase", function () {
                 done(e);
             }
         });
-    })
+    });
+    //46.35.240.182
+    it("Should be only one callback", function (done) {
+        var ip = '46.35.240.182';
+        service.lookup(ip, function (err, result) {
+            try {
+                expect(result).be.a('object');
+                done();
+            } catch (e) {
+                done(e);
+            }
+        });
+    });
 });

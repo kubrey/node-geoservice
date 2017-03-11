@@ -1,3 +1,7 @@
+# v0.2.9
+
+ - `Ipgeobase` callback calling is fixed
+
 # v0.2.8
 
  - PHP library url is updated
