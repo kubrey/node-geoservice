@@ -35,7 +35,7 @@ describe('Geolocator common function', function () {
         this.timeout(5000);
         geo.lookup('8.8.8.888', function (err, result) {
             try {
-                expect(err).not.equal(null);
+                expect(err).to.be.an.instanceof(Error);
                 done();
             } catch (e) {
                 done(e);
@@ -57,7 +57,7 @@ describe('Geolocator common function', function () {
         });
         geo.lookup('8.8.8.8', function (err, result) {
             try {
-                expect(err).not.equal(null);
+                expect(err).to.be.an.instanceof(Error);
                 done();
             } catch (e) {
                 done(e);
@@ -113,7 +113,7 @@ describe('Geolocator common function', function () {
         });
         geo.lookup('10.10.10.10', function (err, result) {
             try {
-                expect(err).not.equal(null);
+                expect(err).to.be.an.instanceof(Error);
                 done();
             } catch (e) {
                 done(e);
@@ -152,7 +152,7 @@ describe('Geolocator common function', function () {
         });
         geo.lookup('8.8.8.8', function (err, result) {
             try {
-                expect(err).not.equal(null);
+                expect(err).to.be.an.instanceof(Error);
                 done();
             } catch (e) {
                 done(e);
@@ -177,7 +177,7 @@ describe('Geolocator common function', function () {
         });
         geo.lookup('8.8.8.8', function (err, result) {
             try {
-                expect(err).not.equal(null);
+                expect(err).to.be.an.instanceof(Error);
                 done();
             } catch (e) {
                 done(e);
@@ -223,7 +223,8 @@ describe('Geolocator common function', function () {
         });
         geo.lookup(ipv6, function (err, result) {
             try {
-                expect(err).not.equal(null);
+                //expect(err).not.equal(null);
+                expect(err).to.be.an.instanceof(Error);
                 done();
             } catch (e) {
                 done(e);

@@ -1,6 +1,6 @@
 {
   "name": "geosearch",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Geo location service using multiple free independent services and modules",
   "main": "lib/geosearch.js",
   "scripts": {

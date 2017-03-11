@@ -18,5 +18,6 @@ var options = {
 };
 geo.setOptions(options);
 geo.lookup(ip, function (err, res) {
-    console.log(res);
+    //instanceof err;
+    console.log(err instanceof Error, res);
 });

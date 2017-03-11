@@ -1,3 +1,7 @@
+# v0.3.0
+
+ - Error in callback is now instance of `GeoError`, not a string
+
 # v0.2.9
 
  - `Ipgeobase` callback calling is fixed
